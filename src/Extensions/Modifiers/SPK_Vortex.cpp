@@ -24,7 +24,7 @@
 
 namespace SPK
 {
-	Vortex::Vortex(const Vector3D& position,const Vector3D& direction,float rotationSpeed,float attractionSpeed) :
+	Vortex::Vortex(const vec3& position,const vec3& direction,float rotationSpeed,float attractionSpeed) :
 		Modifier(ALWAYS | INSIDE_ZONE |OUTSIDE_ZONE,ALWAYS,false,false,NULL),
 		rotationSpeed(rotationSpeed),
 		attractionSpeed(attractionSpeed),
@@ -43,7 +43,7 @@ namespace SPK
 		float dist = dotProduct(tDirection,particle.position() - tPosition);
 		
 		// Position of the rotation center (orthogonal projection of the particle)
-		Vector3D rotationCenter = tDirection;
+		vec3 rotationCenter = tDirection;
 		rotationCenter *= dist;
 		rotationCenter += tPosition;
 
@@ -60,8 +60,8 @@ namespace SPK
 		float angle = angularSpeedEnabled ? rotationSpeed * deltaTime : rotationSpeed * deltaTime / dist;
 
 		// Computes ortho base
-		Vector3D normal = (particle.position() - rotationCenter) / dist;
-        Vector3D tangent = crossProduct(tDirection,normal);
+		vec3 normal = (particle.position() - rotationCenter) / dist;
+        vec3 tangent = crossProduct(tDirection,normal);
 
         float endRadius = linearSpeedEnabled ? dist * (1.0f - attractionSpeed * deltaTime) : dist - attractionSpeed * deltaTime;
         if (endRadius <= eyeRadius)
@@ -79,6 +79,7 @@ namespace SPK
 		Modifier::innerUpdateTransform();
 		transformPos(tPosition,position);
 		transformDir(tDirection,direction);
-		tDirection.normalize();
+//		tDirection.normalize();
+		tDirection = glm::normalize(tDirection);
 	}
 }

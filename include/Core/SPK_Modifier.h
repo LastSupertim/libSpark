@@ -191,11 +191,11 @@ namespace SPK
 
 	protected :
 
-		/** @brief the Vector3D that holds the intersection coordinates */
-		static Vector3D intersection;
+		/** @brief the vec3 that holds the intersection coordinates */
+		static vec3 intersection;
 
-		/** @brief the Vector3D that holds the intersection coordinates */
-		static Vector3D normal;
+		/** @brief the vec3 that holds the intersection coordinates */
+		static vec3 normal;
 
 		/** @brief true if the Modifier needs the intersection computation, false if not */
 		bool needsIntersection;

@@ -113,7 +113,7 @@ namespace SPK
 		* </ul>
 		* In other modes the look vector is not used
 		*/
-		Vector3D lookVector;
+		vec3 lookVector;
 
 		/**
 		* @brief The up vector
@@ -125,7 +125,7 @@ namespace SPK
 		* </ul>
 		* In other modes the up vector is not used
 		*/
-		Vector3D upVector;
+		vec3 upVector;
 
 		//////////////////
 		// Constructors //
@@ -198,38 +198,38 @@ namespace SPK
 		UpOrientation upOrientation;
 		LockedAxis lockedAxis;
 
-		bool precomputeOrientation3D(const Group& group,const Vector3D& look,const Vector3D& up,const Vector3D& pos);
+		bool precomputeOrientation3D(const Group& group,const vec3& look,const vec3& up,const vec3& pos);
 		void computeGlobalOrientation3D();
 		void computeSingleOrientation3D(const Particle& particle);
 
 		void scaleQuadVectors(const Particle& particle,float scaleX,float scaleY) const;
 		void rotateAndScaleQuadVectors(const Particle& particle,float scaleX,float scaleY) const;
 
-		const Vector3D& quadUp() const;
-		const Vector3D& quadSide() const;
+		const vec3& quadUp() const;
+		const vec3& quadSide() const;
 
 	private :
 
 		// Used to store modelview information
-		mutable Vector3D mVLook;
-		mutable Vector3D mVUp;
-		mutable Vector3D mVPos;
+		mutable vec3 mVLook;
+		mutable vec3 mVUp;
+		mutable vec3 mVPos;
 
 		// Used to store precomputed orientation
-		mutable Vector3D globalLook;
-		mutable Vector3D globalUp;
+		mutable vec3 globalLook;
+		mutable vec3 globalUp;
 
 		// Used to store the orientation of quads before scaling
-		mutable Vector3D up;
-		mutable Vector3D side;
-		mutable Vector3D look;
+		mutable vec3 up;
+		mutable vec3 side;
+		mutable vec3 look;
 
 		// Is using rotation
 		mutable int quadRotated;
 
 		// This is where are stored quad orientation info after computation
-		mutable Vector3D sideQuad;
-		mutable Vector3D upQuad;
+		mutable vec3 sideQuad;
+		mutable vec3 upQuad;
 	};
 
 
@@ -248,17 +248,17 @@ namespace SPK
 		return lockedAxis;
 	}
 
-	inline const Vector3D& Oriented3DRendererInterface::quadUp() const
+	inline const vec3& Oriented3DRendererInterface::quadUp() const
 	{
 		return upQuad;
 	}
 
-	inline const Vector3D& Oriented3DRendererInterface::quadSide() const
+	inline const vec3& Oriented3DRendererInterface::quadSide() const
 	{
 		return sideQuad;
 	}
 
-	inline bool Oriented3DRendererInterface::precomputeOrientation3D(const Group& group,const Vector3D& modelViewLook,const Vector3D& modelViewUp,const Vector3D& modelViewPos)
+	inline bool Oriented3DRendererInterface::precomputeOrientation3D(const Group& group,const vec3& modelViewLook,const vec3& modelViewUp,const vec3& modelViewPos)
 	{
 		mVLook = modelViewLook;
 		mVUp = modelViewUp;
@@ -295,13 +295,16 @@ namespace SPK
 		else if (quadRotated)
 		{
 			crossProduct(side,up,look);
-			look.normalize();
+//			look.normalize();
+			look = glm::normalize(look);
 		}
 
-		up.normalize();
+//		up.normalize();
+		up = glm::normalize(up);
 		up *= 0.5f;
 
-		side.normalize();
+//		side.normalize();
+		side = glm::normalize(side);
 		side *= 0.5f;
 	}
 	
@@ -336,13 +339,16 @@ namespace SPK
 		else if (quadRotated)
 		{
 			crossProduct(side,up,look);
-			look.normalize();
+//			look.normalize();
+			look = glm::normalize(look);
 		}
 
-		side.normalize();
+//		side.normalize();
+		side = glm::normalize(side);
 		side *= 0.5f;
 
-		up.normalize();
+//		up.normalize();
+		up = glm::normalize(up);
 		up *= 0.5f;
 	}
 

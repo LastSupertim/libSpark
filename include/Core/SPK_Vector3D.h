@@ -24,246 +24,18 @@
 #define H_SPK_VECTOR3D
 
 #include "Core/SPK_DEF.h"
-
+#include <glm/glm.hpp>
+#include <glm/gtx/norm.hpp>
+using glm::vec3;
 
 namespace SPK
 {
-	/**
-	* @class Vector3D
-	* @brief A triplet of coordinates in 3D
-	*
-	* This class offers a set of methods to manipulate 3D points/vectors.<br>
-	* To make the use of 3D points/vectors easier and more intuitive, some operators are overloaded.<br>
-	* Vector3D are the basic primitive used in SPARK to define 3D points/vectors.<br>
-	* <br>
-	* Note that Vector3D coordinates are accessible directly without any setters or getters.
-	*/
-	class SPK_PREFIX Vector3D
-	{
-	public :
-
-		////////////////
-		// Parameters //
-		////////////////
-
-		float x; /**< @brief x coordinate of the vector */
-		float y; /**< @brief y coordinate of the vector */
-		float z; /**< @brief z coordinate of the vector */
-
-		/////////////////
-		// Constructor //
-		/////////////////
-
-		/**
-		* @brief Constructor for the Vector3D
-		* @param x : x coordinate
-		* @param y : y coordinate
-		* @param z : z coordinate
-		*/
-		Vector3D(float x = 0.0f,float y = 0.0f,float z = 0.0f);
-
-		///////////////
-		// Operators //
-		///////////////
-
-		/**
-		* @brief Adds a Vector3D
-		*
-		* This method performs these operations :<br><i>
-		* x += v.x<br>
-		* y += v.y<br>
-		* z += v.z</i>
-		*
-		* @param v : the Vector3D to add
-		* @return the result Vector3D
-		*/
-		Vector3D& operator+=(const Vector3D& v);
-
-		/**
-		* @brief Substracts a Vector3D
-		*
-		* This method performs these operations :<br><i>
-		* x -= v.x<br>
-		* y -= v.y<br>
-		* z -= v.z</i>
-		*
-		* @param v : the Vector3D to substract
-		* @return the result Vector3D
-		*/
-		Vector3D& operator-=(const Vector3D& v);
-
-		/**
-		* @brief Adds a floating number
-		*
-		* This method performs these operations :<br><i>
-		* x += f<br>
-		* y += f<br>
-		* z += f</i>
-		*
-		* @param f : the number to add
-		* @return the result Vector3D
-		*/
-		Vector3D& operator+=(float f);
-
-		/**
-		* @brief Substracts a floating number
-		*
-		* This method performs these operations :<br><i>
-		* x -= f<br>
-		* y -= f<br>
-		* z -= f</i>
-		*
-		* @param f : the number to substract
-		* @return the result Vector3D
-		*/
-		Vector3D& operator-=(float f);
-
-		/**
-		* @brief Multiplies by a floating number
-		*
-		* This method performs these operations :<br><i>
-		* x *= f<br>
-		* y *= f<br>
-		* z *= f</i>
-		*
-		* @param f : the number to multiply the Vector3D by
-		* @return the result Vector3D
-		*/
-		Vector3D& operator*=(float f);
-
-		/**
-		* @brief Divides by a floating number
-		*
-		* This method performs these operations :<br><i>
-		* x /= f<br>
-		* y /= f<br>
-		* z /= f</i>
-		*
-		* @param f : the number to divide the Vector3D by
-		* @return the result Vector3D
-		*/
-		Vector3D& operator/=(float f);
-
-		/**
-		* @brief Unary - operator of Vector3D
-		*
-		* This method performs that operation :<br><i>
-		* return Vector3D(-x,-y,-z)</i>
-		*
-		* return a Vector3D which is the reverse of this Vector3D
-		*/
-		Vector3D operator-() const;
-
-		/**
-		* @brief Accesses the Vector3D coordinates in an container like fashion
-		*
-		* <ul>
-		* <li>index 0 is X</li>
-		* <li>index 1 is Y</li>
-		* <li>index 2 is Z</li>
-		* </ul>
-		* Note that no check for out of bounds index is performed
-		*
-		* @param index : the index of the coordinate to get (from 0 to 2)
-		* @return : the coordinate value at index
-		* @since 1.03.00
-		*/
-		float& operator[](size_t index);
-
-		/**
-		* @brief Accesses the Vector3D coordinates in an container like fashion
-		*
-		* This is the constant version of operator[](size_t)
-		*
-		* @param index : the index of the coordinate to get (from 0 to 2)
-		* @return : the coordinate value at index
-		* @since 1.03.00
-		*/
-		const float& operator[](size_t index) const;
-
-		/////////////
-		// Setters //
-		/////////////
-
-		/**
-		* @brief Sets the values of the Vector3D
-		* @param x : x coordinate
-		* @param y : y coordinate
-		* @param z : z coordinate
-		*/
-		void set(float x,float y,float z = 0.0f);
-
-		///////////////
-		// Interface //
-		///////////////
-
-		/**
-		* @brief Gets the square norm of the Vector3D
-		*
-		* the square norm is defined as <i>x * x + y * y + z * z</i>.
-		* This method is faster than getNorm() and should be used when possible.
-		*
-		* @return the square norm of the Vector3D
-		*/
-		float getSqrNorm() const;
-
-		/**
-		* @brief Gets the norm of the Vector3D
-		*
-		* the norm is defined as <i>sqrt(x * x + y * y + z * z)</i>.
-		*
-		* @return the norm of the Vector3D
-		*/
-		float getNorm() const;
-
-		/**
-		* @brief Normalizes the Vector3D
-		*
-		* This method performs these operations :<br><i>
-		* x /= |v|<br>
-		* y /= |v|<br>
-		* z /= |v|<br></i>
-		* Note that if the norm is equal to 0, nothing happens and false is returned.
-		*
-		* @return true if this Vector3D can be normalized, false otherwise
-		*/
-		bool normalize();
-
-		/**
-		* @brief Reverts the Vector3D
-		*
-		* This method performs these operations :<br><i>
-		* x = -x<br>
-		* y = -y<br>
-		* z = -z</i>
-		*/
-		void revert();
-
-		/**
-		* @brief Sets this Vector3D to its absolute values
-		*
-		* This method performs these operations :<br><i>
-		* x = abs(x)<br>
-		* y = abs(y)<br>
-		* z = abs(z)</i>
-		*
-		* @since 1.02.00
-		*/
-		void abs();
-
-		/**
-		* @brief Computes the cross product between v and the vector3D and store the result in the vector3D
-		* @param v : the vector3D used to compute the cross product (*this x v)
-		*/
-		void crossProduct(const Vector3D& v);
-	};
-
 	////////////////////////
 	// External operators //
 	////////////////////////
 
 	/**
-	* @brief Adds two Vector3D
+	* @brief Adds two vec3
 	*
 	* This function performs these operations :<br><i>
 	* result.x = v0.x + v1.x<br>
@@ -274,10 +46,10 @@ namespace SPK
 	* @param v1 : the second vector3D
 	* @return the result vector3D
 	*/
-	Vector3D operator+(const Vector3D& v0,const Vector3D& v1);
+	vec3 operator+(const vec3& v0,const vec3& v1);
 
 	/**
-	* @brief Substracts two Vector3D
+	* @brief Substracts two vec3
 	*
 	* This function performs these operations :<br><i>
 	* result.x = v0.x - v1.x<br>
@@ -288,10 +60,10 @@ namespace SPK
 	* @param v1 : the second vector3D
 	* @return the result vector3D
 	*/
-	Vector3D operator-(const Vector3D& v0,const Vector3D& v1);
+	vec3 operator-(const vec3& v0,const vec3& v1);
 
 	/**
-	* @brief Adds a Vector3D and a float
+	* @brief Adds a vec3 and a float
 	*
 	* This function performs these operations :<br><i>
 	* result.x = v.x + f<br>
@@ -302,10 +74,10 @@ namespace SPK
 	* @param f : the floating number
 	* @return the result vector3D
 	*/
-	Vector3D operator+(const Vector3D& v,float f);
+	vec3 operator+(const vec3& v,float f);
 
 	/**
-	* @brief Adds a float and a Vector3D
+	* @brief Adds a float and a vec3
 	*
 	* This function performs these operations :<br><i>
 	* result.x = f + v.x<br>
@@ -316,10 +88,10 @@ namespace SPK
 	* @param v : the vector3D
 	* @return the result vector3D
 	*/
-	Vector3D operator+(float f,const Vector3D& v);
+	vec3 operator+(float f,const vec3& v);
 
 	/**
-	* @brief Substracts a float to a Vector3D
+	* @brief Substracts a float to a vec3
 	*
 	* This function performs these operations :<br><i>
 	* result.x = v.x - f<br>
@@ -330,10 +102,10 @@ namespace SPK
 	* @param f : the floating number
 	* @return the result vector3D
 	*/
-	Vector3D operator-(const Vector3D& v,float f);
+	vec3 operator-(const vec3& v,float f);
 
 	/**
-	* @brief Substracts a Vector3D to a float
+	* @brief Substracts a vec3 to a float
 	*
 	* This function performs these operations :<br><i>
 	* result.x = f - v.x<br>
@@ -344,10 +116,10 @@ namespace SPK
 	* @param v : the vector3D
 	* @return the result vector3D
 	*/
-	Vector3D operator-(float f,const Vector3D& v);
+	vec3 operator-(float f,const vec3& v);
 
 	/**
-	* @brief Multiplies a Vector3D by a float
+	* @brief Multiplies a vec3 by a float
 	*
 	* This function performs these operations :<br><i>
 	* result.x = v.x * f<br>
@@ -358,10 +130,10 @@ namespace SPK
 	* @param f : the floating number
 	* @return the result vector3D
 	*/
-	Vector3D operator*(const Vector3D& v,float f);
+	vec3 operator*(const vec3& v,float f);
 
 	/**
-	* @brief Multiplies a float by a Vector3D
+	* @brief Multiplies a float by a vec3
 	*
 	* This function performs these operations :<br><i>
 	* result.x = f * v.x<br>
@@ -372,10 +144,10 @@ namespace SPK
 	* @param v : the vector3D
 	* @return the result vector3D
 	*/
-	Vector3D operator*(float f,const Vector3D& v);
+	vec3 operator*(float f,const vec3& v);
 
 	/**
-	* @brief Divides a Vector3D by a float
+	* @brief Divides a vec3 by a float
 	*
 	* This function performs these operations :<br><i>
 	* result.x = v.x / f<br>
@@ -386,10 +158,10 @@ namespace SPK
 	* @param f : the floating number
 	* @return the result vector3D
 	*/
-	Vector3D operator/(const Vector3D& v,float f);
+	vec3 operator/(const vec3& v,float f);
 
 	/**
-	* @brief Divides a float by a Vector3D
+	* @brief Divides a float by a vec3
 	*
 	* This function performs these operations :<br><i>
 	* result.x = f / v.x<br>
@@ -400,168 +172,153 @@ namespace SPK
 	* @param v : the vector3D
 	* @return the result vector3D
 	*/
-	Vector3D operator/(float f,const Vector3D& v);
+	vec3 operator/(float f,const vec3& v);
 
 	/**
-	* @brief Tests whether 2 Vector3D are equal
-	* @param v0 : the first Vector3D to compare
-	* @param v1 : the second Vector3D to compare
-	* @return true if the Vector3D are equal, false if not
+	* @brief Tests whether 2 vec3 are equal
+	* @param v0 : the first vec3 to compare
+	* @param v1 : the second vec3 to compare
+	* @return true if the vec3 are equal, false if not
 	* @since 1.01.01
 	*/
-	bool operator==(const Vector3D& v0,const Vector3D& v1);
+	bool operator==(const vec3& v0,const vec3& v1);
 
 	/**
-	* @brief Tests whether 2 Vector3D are different
-	* @param v0 : the first Vector3D to compare
-	* @param v1 : the second Vector3D to compare
-	* @return true if the Vector3D are different, false if not
+	* @brief Tests whether 2 vec3 are different
+	* @param v0 : the first vec3 to compare
+	* @param v1 : the second vec3 to compare
+	* @return true if the vec3 are different, false if not
 	* @since 1.01.01
 	*/
-	bool operator!=(const Vector3D& v0,const Vector3D& v1);
+	bool operator!=(const vec3& v0,const vec3& v1);
 
 	/**
-	* @brief Writes a Vector3D on an output stream
+	* @brief Writes a vec3 on an output stream
 	*
-	* The Vector3D is written that way : <i>(x,y,z)</i>
+	* The vec3 is written that way : <i>(x,y,z)</i>
 	*
 	* @param s : the output stream where to write
-	* @param v : the Vector3D to write to the output stream
+	* @param v : the vec3 to write to the output stream
 	* @return the output stream
 	* @since 1.01.01
 	*/
-	std::ostream& operator<<(std::ostream& s,const Vector3D& v);
+	std::ostream& operator<<(std::ostream& s,const vec3& v);
 
 	////////////////////////
 	// External functions //
 	////////////////////////
 
 	/**
-	* @brief Returns the square distance between two Vector3D
+	* @brief Returns the square distance between two vec3
 	*
-	* This method is faster than getDist(const Vector3D&,const Vector3D&) and should be used when possible.
+	* This method is faster than getDist(const vec3&,const vec3&) and should be used when possible.
 	*
-	* @param v0 : the first Vector3D
-	* @param v1 : the second Vector3D
-	* @return the square distance between the two Vector3D
+	* @param v0 : the first vec3
+	* @param v1 : the second vec3
+	* @return the square distance between the two vec3
 	*/
-	extern SPK_PREFIX float getSqrDist(const Vector3D& v0,const Vector3D& v1);
+	extern SPK_PREFIX float getSqrDist(const vec3& v0,const vec3& v1);
 
 	/**
-	* @brief Returns the distance between two Vector3D
-	* @param v0 : the first Vector3D
-	* @param v1 : the second Vector3D
-	* @return the distance between the two Vector3D
+	* @brief Returns the distance between two vec3
+	* @param v0 : the first vec3
+	* @param v1 : the second vec3
+	* @return the distance between the two vec3
 	*/
-	extern SPK_PREFIX float getDist(const Vector3D& v0,const Vector3D& v1);
+	extern SPK_PREFIX float getDist(const vec3& v0,const vec3& v1);
 
 	/**
-	* @brief Returns the dot product between two Vector3D
-	* @param v0 : the first Vector3D
-	* @param v1 : the second Vector3D
+	* @brief Returns the dot product between two vec3
+	* @param v0 : the first vec3
+	* @param v1 : the second vec3
 	* @return the dot product (v0 . v1)
 	*/
-	float dotProduct(const Vector3D& v0,const Vector3D& v1);
+	float dotProduct(const vec3& v0,const vec3& v1);
 
 	/**
-	* @brief Returns the cross product between two Vector3D
-	* @param v0 : the first Vector3D
-	* @param v1 : the second Vector3D
+	* @brief Returns the cross product between two vec3
+	* @param v0 : the first vec3
+	* @param v1 : the second vec3
 	* @return the cross product (v0 x v1)
 	*/
-	extern SPK_PREFIX Vector3D crossProduct(const Vector3D& v0,const Vector3D& v1);
+	extern SPK_PREFIX vec3 crossProduct(const vec3& v0,const vec3& v1);
 
 	/**
-	* @brief Computes the cross product between two Vector3D and stores the result in the Vector3D result
-	* @param v0 : the first Vector3D
-	* @param v1 : the second Vector3D
-	* @param result : the Vector3D where to store the cross product (v0 x v1)
+	* @brief Computes the cross product between two vec3 and stores the result in the vec3 result
+	* @param v0 : the first vec3
+	* @param v1 : the second vec3
+	* @param result : the vec3 where to store the cross product (v0 x v1)
 	*/
-	extern SPK_PREFIX void crossProduct(const Vector3D& v0,const Vector3D& v1,Vector3D& result);
+	extern SPK_PREFIX void crossProduct(const vec3& v0,const vec3& v1,vec3& result);
 
 
-	inline float Vector3D::getSqrNorm() const
-	{
-		return x * x + y * y + z * z;
-	}
-
-	inline float Vector3D::getNorm() const
-	{
-		return std::sqrt(getSqrNorm());
-	}
-
-	inline Vector3D Vector3D::operator-() const
-	{
-		return Vector3D(-x,-y,-z);
-	}
-
-	inline float dotProduct(const Vector3D& v0,const Vector3D& v1)
+	inline float dotProduct(const vec3& v0,const vec3& v1)
 	{
 		return v0.x * v1.x + v0.y * v1.y + v0.z * v1.z;
 	}
 
-	inline Vector3D operator+(const Vector3D& v0,const Vector3D& v1)
+	inline vec3 operator+(const vec3& v0,const vec3& v1)
 	{
-		return Vector3D(v0.x + v1.x,v0.y + v1.y,v0.z + v1.z);
+		return vec3(v0.x + v1.x,v0.y + v1.y,v0.z + v1.z);
 	}
 
-	inline Vector3D operator-(const Vector3D& v0,const Vector3D& v1)
+	inline vec3 operator-(const vec3& v0,const vec3& v1)
 	{
-		return Vector3D(v0.x - v1.x,v0.y - v1.y,v0.z - v1.z);
+		return vec3(v0.x - v1.x,v0.y - v1.y,v0.z - v1.z);
 	}
 
-	inline Vector3D operator+(const Vector3D& v,float f)
+	inline vec3 operator+(const vec3& v,float f)
 	{
-		return Vector3D(v.x + f,v.y + f,v.z + f);
+		return vec3(v.x + f,v.y + f,v.z + f);
 	}
 
-	inline Vector3D operator+(float f,const Vector3D& v)
+	inline vec3 operator+(float f,const vec3& v)
 	{
-		return Vector3D(v.x + f,v.y + f,v.z + f);
+		return vec3(v.x + f,v.y + f,v.z + f);
 	}
 
-	inline Vector3D operator-(const Vector3D& v,float f)
+	inline vec3 operator-(const vec3& v,float f)
 	{
-		return Vector3D(v.x - f,v.y - f,v.z - f);
+		return vec3(v.x - f,v.y - f,v.z - f);
 	}
 
-	inline Vector3D operator-(float f,const Vector3D& v)
+	inline vec3 operator-(float f,const vec3& v)
 	{
-		return Vector3D(v.x - f,v.y - f,v.z - f);
+		return vec3(v.x - f,v.y - f,v.z - f);
 	}
 
-	inline Vector3D operator*(const Vector3D& v,float f)
+	inline vec3 operator*(const vec3& v,float f)
 	{
-		return Vector3D(v.x * f,v.y * f,v.z * f);
+		return vec3(v.x * f,v.y * f,v.z * f);
 	}
 
-	inline Vector3D operator*(float f,const Vector3D& v)
+	inline vec3 operator*(float f,const vec3& v)
 	{
-		return Vector3D(v.x * f,v.y * f,v.z * f);
+		return vec3(v.x * f,v.y * f,v.z * f);
 	}
 
-	inline Vector3D operator/(const Vector3D& v,float f)
+	inline vec3 operator/(const vec3& v,float f)
 	{
 		float mul = 1.0f / f;
-		return Vector3D(v.x * mul,v.y * mul,v.z * mul);
+		return vec3(v.x * mul,v.y * mul,v.z * mul);
 	}
 
-	inline Vector3D operator/(float f,const Vector3D& v)
+	inline vec3 operator/(float f,const vec3& v)
 	{
-		return Vector3D(f / v.x,f / v.y,f / v.z);
+		return vec3(f / v.x,f / v.y,f / v.z);
 	}
 
-	inline bool operator==(const Vector3D& v0,const Vector3D& v1)
+	inline bool operator==(const vec3& v0,const vec3& v1)
 	{
 		return (v0.x == v1.x)&&(v0.y == v1.y)&&(v0.z == v1.z);
 	}
 
-	inline bool operator!=(const Vector3D& v0,const Vector3D& v1)
+	inline bool operator!=(const vec3& v0,const vec3& v1)
 	{
 		return (v0.x != v1.x)||(v0.y != v1.y)||(v0.z != v1.z);
 	}
 
-	inline std::ostream& operator<<(std::ostream& s,const Vector3D& v)
+	inline std::ostream& operator<<(std::ostream& s,const vec3& v)
 	{
 		return s << '(' << v.x << ',' << v.y << ',' << v.z << ')';
 	}

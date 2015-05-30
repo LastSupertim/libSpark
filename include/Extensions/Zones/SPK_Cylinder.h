@@ -58,7 +58,7 @@ namespace SPK
 		* @param direction : the direction of the cylinder
 		* @param radius : the  radius of the cylinder
 		*/
-		Cylinder(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f),const Vector3D& direction = Vector3D(0.0f,1.0f,0.0f),float radius = 1.0f,float length = 1.0f);
+		Cylinder(const vec3& position = vec3(0.0f,0.0f,0.0f),const vec3& direction = vec3(0.0f,1.0f,0.0f),float radius = 1.0f,float length = 1.0f);
 
 		/**
 		* @brief Creates and registers a new cylinder
@@ -67,7 +67,7 @@ namespace SPK
 		* @param radius : the  radius of the cylinder
 		* @return a new registered cylinder
 		*/
-		static Cylinder* create(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f),const Vector3D& direction = Vector3D(0.0f,1.0f,0.0f),float radius = 1.0f,float length = 1.0f);
+		static Cylinder* create(const vec3& position = vec3(0.0f,0.0f,0.0f),const vec3& direction = vec3(0.0f,1.0f,0.0f),float radius = 1.0f,float length = 1.0f);
 
 		/////////////
 		// Setters //
@@ -80,7 +80,7 @@ namespace SPK
 		*
 		* @param direction : the direction of the cylinder
 		*/
-		void setDirection(const Vector3D& direction);
+		void setDirection(const vec3& direction);
 
 		/**
 		* @brief Sets the radius of this cylinder
@@ -110,13 +110,13 @@ namespace SPK
 		* @brief Gets the direction of this cylinder
 		* @return the direction of this cylinder
 		*/
-		const Vector3D& getDirection() const;
+		const vec3& getDirection() const;
 
 		/**
 		* @brief Gets the transformed direction of this cylinder
 		* @return the transformed direction of this cylinder
 		*/
-		const Vector3D& getTransformedDirection() const;
+		const vec3& getTransformedDirection() const;
 
 		/**
 		* @brief Gets the radius of this cylinder
@@ -135,10 +135,10 @@ namespace SPK
 		///////////////
 
 		virtual void generatePosition(Particle& particle,bool full) const;
-		virtual bool contains(const Vector3D& v) const;
-		virtual bool intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const;
-		virtual void moveAtBorder(Vector3D& v,bool inside) const;
-		virtual Vector3D computeNormal(const Vector3D& point) const;
+		virtual bool contains(const vec3& v) const;
+		virtual bool intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const;
+		virtual void moveAtBorder(vec3& v,bool inside) const;
+		virtual vec3 computeNormal(const vec3& point) const;
 
 	protected :
 
@@ -146,24 +146,24 @@ namespace SPK
 
 	private :
 
-		Vector3D direction;
-		Vector3D tDirection;
+		vec3 direction;
+		vec3 tDirection;
 
 		float radius,length;
 	};
 
 
-	inline Cylinder* Cylinder::create(const Vector3D& position,const Vector3D& direction,float radius,float length)
+	inline Cylinder* Cylinder::create(const vec3& position,const vec3& direction,float radius,float length)
 	{
 		Cylinder* obj = new Cylinder(position,direction,radius,length);
 		registerObject(obj);
 		return obj;
 	}
 
-	inline void Cylinder::setDirection(const Vector3D& direction)
+	inline void Cylinder::setDirection(const vec3& direction)
 	{
-		this->direction = direction;
-		this->direction.normalize();
+		this->direction = glm::normalize(direction);
+//		this->direction.normalize();
 		tDirection = this->direction;
 		notifyForUpdate();
 	}
@@ -178,12 +178,12 @@ namespace SPK
 	    this->length = (length < 0 ? -length : length);
 	}
 
-	inline const Vector3D& Cylinder::getDirection() const
+	inline const vec3& Cylinder::getDirection() const
 	{
 		return direction;
 	}
 
-	inline const Vector3D& Cylinder::getTransformedDirection() const
+	inline const vec3& Cylinder::getTransformedDirection() const
 	{
 		return tDirection;
 	}

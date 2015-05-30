@@ -25,16 +25,17 @@
 
 namespace SPK
 {
-	StraightEmitter::StraightEmitter(const Vector3D& direction) :
+	StraightEmitter::StraightEmitter(const vec3& direction) :
 		Emitter()
 	{
 		setDirection(direction);
 	}
 
-	void StraightEmitter::setDirection(const Vector3D& direction)
+	void StraightEmitter::setDirection(const vec3& direction)
 	{
 		this->direction = direction;
-		this->direction.normalize();
+//		this->direction.normalize();
+		this->direction = glm::normalize(this->direction);
 		tDirection = this->direction;
 		notifyForUpdate();
 	}
@@ -43,6 +44,7 @@ namespace SPK
 	{
 		Emitter::innerUpdateTransform();
 		transformDir(tDirection,direction);
-		tDirection.normalize();
+//		tDirection.normalize();
+		tDirection = glm::normalize(tDirection);
 	}
 }

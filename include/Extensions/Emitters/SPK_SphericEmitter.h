@@ -33,9 +33,9 @@ namespace SPK
 	* @brief An Emitter that emits particles in a portion of sphere
 	*
 	* This Emitter can emit particles in a spheric way.
-	* To do that 2 angles and a direction Vector3D can be parametered :
+	* To do that 2 angles and a direction vec3 can be parametered :
 	* <ul>
-	* <li>The direction Vector3D defines the direction of the emitter.</li>
+	* <li>The direction vec3 defines the direction of the emitter.</li>
 	* <li>The angles defines the area in between which wil be emitted the particles velocities.</li>
 	* </ul>
 	* Here are a few examples :
@@ -63,7 +63,7 @@ namespace SPK
 		* @param angleA : the first angle in radians of the SphericEmitter
 		* @param angleB : the second angle in radians of the SphericEmitter
 		*/
-		SphericEmitter(const Vector3D& direction = Vector3D(0.0f,0.0f,-1.0f),float angleA = 0.0f,float angleB = 0.0f);
+		SphericEmitter(const vec3& direction = vec3(0.0f,0.0f,-1.0f),float angleA = 0.0f,float angleB = 0.0f);
 
 		/**
 		* @brief Creates and registers a new SphericEmitter
@@ -72,7 +72,7 @@ namespace SPK
 		* @param angleB : the second angle in radians of the SphericEmitter
 		* @since 1.04.00
 		*/
-		static SphericEmitter* create(const Vector3D& direction = Vector3D(0.0f,0.0f,-1.0f),float angleA = 0.0f,float angleB = 0.0f);
+		static SphericEmitter* create(const vec3& direction = vec3(0.0f,0.0f,-1.0f),float angleA = 0.0f,float angleB = 0.0f);
 
 		/////////////
 		// Setters //
@@ -81,12 +81,12 @@ namespace SPK
 		/**
 		* @brief Sets the direction of this SphericEmitter
 		*
-		* Note that it is not necessary to provide a normalized Vector3D.
-		* This Vector3D only indicates a direction, its norm does not matter.
+		* Note that it is not necessary to provide a normalized vec3.
+		* This vec3 only indicates a direction, its norm does not matter.
 		*
 		* @param direction : the direction of this SphericEmitter
 		*/
-		void setDirection(const Vector3D& direction);
+		void setDirection(const vec3& direction);
 
 		/**
 		* @brief Sets the angles of this SphericEmitter
@@ -107,13 +107,13 @@ namespace SPK
 		* @brief Gets the direction of this SphericEmitter
 		* @return the direction of this SphericEmitter
 		*/
-		const Vector3D& getDirection() const;
+		const vec3& getDirection() const;
 
 		/**
 		* @brief Gets the direction of this SphericEmitter
 		* @return the direction of this SphericEmitter
 		*/
-		const Vector3D& getTransformedDirection() const;
+		const vec3& getTransformedDirection() const;
 
 		/**
 		* @brief Gets the minimum angle of this SphericEmitter
@@ -135,8 +135,8 @@ namespace SPK
 
 		static const float PI;
 
-		Vector3D direction;
-		Vector3D tDirection; // transformed direction
+		vec3 direction;
+		vec3 tDirection; // transformed direction
 
 		float angleMin;
 		float angleMax;
@@ -152,19 +152,19 @@ namespace SPK
 	};
 
 
-	inline SphericEmitter* SphericEmitter::create(const Vector3D& direction,float angleA,float angleB)
+	inline SphericEmitter* SphericEmitter::create(const vec3& direction,float angleA,float angleB)
 	{
 		SphericEmitter* obj = new SphericEmitter(direction,angleA,angleB);
 		registerObject(obj);
 		return obj;
 	}
 
-	inline const Vector3D& SphericEmitter::getDirection() const
+	inline const vec3& SphericEmitter::getDirection() const
 	{
 		return direction;
 	}
 
-	inline const Vector3D& SphericEmitter::getTransformedDirection() const
+	inline const vec3& SphericEmitter::getTransformedDirection() const
 	{
 		return tDirection;
 	}

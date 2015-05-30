@@ -28,7 +28,7 @@
 
 namespace SPK
 {
-	Vector3D System::cameraPosition;
+	vec3 System::cameraPosition;
 
 	StepMode System::stepMode(STEP_REAL);
 	float System::constantStep(0.0f);
@@ -111,8 +111,8 @@ namespace SPK
 		if (boundingBoxEnabled)
 		{
 			const float maxFloat = std::numeric_limits<float>::max();
-			AABBMin.set(maxFloat,maxFloat,maxFloat);
-			AABBMax.set(-maxFloat,-maxFloat,-maxFloat);
+			AABBMin = vec3(maxFloat,maxFloat,maxFloat);
+			AABBMax = vec3(-maxFloat,-maxFloat,-maxFloat);
 		}
 
 		for (std::vector<Group*>::iterator it = groups.begin(); it != groups.end(); ++it)
@@ -122,8 +122,8 @@ namespace SPK
 
 			if ((boundingBoxEnabled)&&((*it)->isAABBComputingEnabled()))
 			{
-				Vector3D groupMin = (*it)->getAABBMin();
-				Vector3D groupMax = (*it)->getAABBMax();
+				vec3 groupMin = (*it)->getAABBMin();
+				vec3 groupMax = (*it)->getAABBMax();
 				if (AABBMin.x > groupMin.x)
 					AABBMin.x = groupMin.x;
 				if (AABBMin.y > groupMin.y)
@@ -142,8 +142,8 @@ namespace SPK
 
 		if ((!boundingBoxEnabled)||(!hasGroupsWithAABB))
 		{
-			AABBMin.set(0.0f,0.0f,0.0f);
-			AABBMax.set(0.0f,0.0f,0.0f);
+			AABBMin = vec3(0.0f,0.0f,0.0f);
+			AABBMax = vec3(0.0f,0.0f,0.0f);
 		}
 
 		return isAlive;
@@ -215,7 +215,7 @@ namespace SPK
 		nbParticles = 0;
 	}
 
-	void System::setCameraPosition(const Vector3D& cameraPosition)
+	void System::setCameraPosition(const vec3& cameraPosition)
 	{
 		System::cameraPosition = cameraPosition;
 	}
@@ -244,7 +244,7 @@ namespace SPK
 		stepMode = STEP_REAL;
 	}
 
-	const Vector3D& System::getCameraPosition()
+	const vec3& System::getCameraPosition()
 	{
 		return cameraPosition;
 	}
@@ -271,8 +271,8 @@ namespace SPK
 		if (boundingBoxEnabled)
 		{
 			const float maxFloat = std::numeric_limits<float>::max();
-			AABBMin.set(maxFloat,maxFloat,maxFloat);
-			AABBMax.set(-maxFloat,-maxFloat,-maxFloat);
+			AABBMin = vec3(maxFloat,maxFloat,maxFloat);
+			AABBMax = vec3(-maxFloat,-maxFloat,-maxFloat);
 		}
 
 		bool hasGroupsWithAABB = false;
@@ -282,8 +282,8 @@ namespace SPK
 
 			if ((boundingBoxEnabled)&&((*it)->isAABBComputingEnabled()))
 			{
-				Vector3D groupMin = (*it)->getAABBMin();
-				Vector3D groupMax = (*it)->getAABBMax();
+				vec3 groupMin = (*it)->getAABBMin();
+				vec3 groupMax = (*it)->getAABBMax();
 				if (AABBMin.x > groupMin.x)
 					AABBMin.x = groupMin.x;
 				if (AABBMin.y > groupMin.y)
@@ -302,7 +302,7 @@ namespace SPK
 
 		if ((!boundingBoxEnabled)||(!hasGroupsWithAABB))
 		{
-			const Vector3D pos = getWorldTransformPos();
+			const vec3 pos = getWorldTransformPos();
 			AABBMin = AABBMax = pos;
 		}
 	}

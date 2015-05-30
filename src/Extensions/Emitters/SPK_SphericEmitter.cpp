@@ -27,14 +27,14 @@ namespace SPK
 {
 	const float SphericEmitter::PI = 3.1415926535897932384626433832795f;
 
-	SphericEmitter::SphericEmitter(const Vector3D& direction,float angleA,float angleB) :
+	SphericEmitter::SphericEmitter(const vec3& direction,float angleA,float angleB) :
 		Emitter()
 	{
 		setDirection(direction);
 		setAngles(angleA,angleB);
 	}
 
-	void SphericEmitter::setDirection(const Vector3D& direction)
+	void SphericEmitter::setDirection(const vec3& direction)
 	{
 		tDirection = direction;
 		computeMatrix();
@@ -59,7 +59,8 @@ namespace SPK
 
 	void SphericEmitter::computeMatrix()
 	{
-		tDirection.normalize();
+//		tDirection.normalize();
+		tDirection = glm::normalize(tDirection);
 		if ((tDirection.x == 0.0f)&&(tDirection.y == 0.0f))
 		{
 			
@@ -75,11 +76,12 @@ namespace SPK
 		}
 		else
 		{
-			Vector3D axis;
-			crossProduct(tDirection,Vector3D(0.0f,0.0f,1.0f),axis);
+			vec3 axis;
+			crossProduct(tDirection,vec3(0.0f,0.0f,1.0f),axis);
 
 			float cosA = tDirection.z;
-			float sinA = -axis.getNorm();
+//			float sinA = -axis.getNorm();
+			float sinA = -glm::length(axis);
 			axis /= -sinA;
 
 			float x = axis.x;

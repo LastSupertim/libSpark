@@ -64,7 +64,7 @@ namespace SPK
 		notifyForUpdate();
 	}
 
-	void Transformable::setTransformPosition(const Vector3D& pos)
+	void Transformable::setTransformPosition(const vec3& pos)
 	{
 		local[12] = pos.x;
 		local[13] = pos.y;
@@ -74,13 +74,15 @@ namespace SPK
 		notifyForUpdate();
 	}
 
-	void Transformable::setTransformOrientationRH(Vector3D look,Vector3D up)
+	void Transformable::setTransformOrientationRH(vec3 look,vec3 up)
 	{
-		look.normalize();
-		up.normalize();
+//		look.normalize();
+//		up.normalize();
+		look = glm::normalize(look);
+		up = glm::normalize(up);
 
-		Vector3D side = crossProduct(look,up);
-		side.normalize();
+		vec3 side = glm::normalize(crossProduct(look,up));
+//		side.normalize();
 
 		up = crossProduct(side,look);
 
@@ -98,12 +100,13 @@ namespace SPK
 		notifyForUpdate();
 	}
 
-	void Transformable::setTransformOrientationLH(Vector3D look,Vector3D up)
+	void Transformable::setTransformOrientationLH(vec3 look,vec3 up)
 	{
-		look.normalize();
+//		look.normalize();
+		look = glm::normalize(look);
 
-		Vector3D side = crossProduct(look,up);
-		side.normalize();
+		vec3 side = glm::normalize(crossProduct(look,up));
+//		side.normalize();
 
 		up = crossProduct(side,look);
 
@@ -121,13 +124,15 @@ namespace SPK
 		notifyForUpdate();
 	}
 
-	void Transformable::setTransformOrientation(Vector3D axis,float angle)
+	void Transformable::setTransformOrientation(vec3 axis,float angle)
 	{
-		axis.normalize();
+//		axis.normalize();
+		axis = glm::normalize(axis);
+
 		float c = std::cos(angle);
 		float s = std::sin(angle);
 		float a = 1 - c;
-		Vector3D axis2(axis.x * axis.x,axis.y * axis.y,axis.z * axis.z);
+		vec3 axis2(axis.x * axis.x,axis.y * axis.y,axis.z * axis.z);
 
 		local[0] = axis2.x + (1 - axis2.x) * c;
 		local[1] = axis.x * axis.y * a + axis.z * s;
@@ -227,12 +232,12 @@ namespace SPK
 		propagateUpdateTransform();
 	}
 
-	void Transformable::transformPos(Vector3D& tPos,const Vector3D& pos)
+	void Transformable::transformPos(vec3& tPos,const vec3& pos)
 	{
 		multiply(tPos,pos,world);
 	}
 
-	void Transformable::transformDir(Vector3D& tDir,const Vector3D& dir)
+	void Transformable::transformDir(vec3& tDir,const vec3& dir)
 	{
 		rotate(tDir,dir,world); // To transform a direction, the translation is ignored
 	}

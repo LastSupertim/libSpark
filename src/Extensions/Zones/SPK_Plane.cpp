@@ -24,13 +24,13 @@
 
 namespace SPK
 {
-	Plane::Plane(const Vector3D& position,const Vector3D& normal) :
+	Plane::Plane(const vec3& position,const vec3& normal) :
 		Zone(position)
 	{
 		setNormal(normal);
 	}
 
-	bool Plane::intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const
+	bool Plane::intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const
 	{
 		float dist0 = dotProduct(tNormal,v0 - getTransformedPosition());
 		float dist1 = dotProduct(tNormal,v1 - getTransformedPosition());
@@ -50,8 +50,9 @@ namespace SPK
 
 			float ti = dist0 / (dist0 + dist1);
 
-			Vector3D vDir = v1 - v0;
-			float norm = vDir.getNorm();
+			vec3 vDir = v1 - v0;
+//			float norm = vDir.getNorm();
+			float norm = glm::length(vDir);
 
 			norm *= ti;
 			ti = norm < APPROXIMATION_VALUE ? 0.0f : ti * (norm - APPROXIMATION_VALUE) / norm;
@@ -63,7 +64,7 @@ namespace SPK
 		return true;
 	}
 
-	void Plane::moveAtBorder(Vector3D& v,bool inside) const
+	void Plane::moveAtBorder(vec3& v,bool inside) const
 	{
 		float dist = dotProduct(tNormal,v - getTransformedPosition());
 
@@ -79,6 +80,7 @@ namespace SPK
 	{
 		Zone::innerUpdateTransform();
 		transformDir(tNormal,normal);
-		tNormal.normalize();
+//		tNormal.normalize();
+		tNormal = glm::normalize(tNormal);
 	}
 }

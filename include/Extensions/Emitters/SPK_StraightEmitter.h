@@ -47,14 +47,14 @@ namespace SPK
 		* @brief The constructor of StraightEmitter
 		* @param direction : the direction of the StraighEmitter
 		*/
-		StraightEmitter(const Vector3D& direction = Vector3D(0.0f,0.0f,-1.0f));
+		StraightEmitter(const vec3& direction = vec3(0.0f,0.0f,-1.0f));
 
 		/**
 		* @brief Creates and registers a new StraightEmitter
 		* @param direction : the direction of the StraighEmitter
 		* @since 1.04.00
 		*/
-		static StraightEmitter* create(const Vector3D& direction = Vector3D(0.0f,0.0f,-1.0f));
+		static StraightEmitter* create(const vec3& direction = vec3(0.0f,0.0f,-1.0f));
 
 		/////////////
 		// Setters //
@@ -63,12 +63,12 @@ namespace SPK
 		/**
 		* @brief Sets the direction of this StraightEmitter
 		*
-		* Note that it is not necessary to provide a normalized Vector3D.
-		* This Vector3D only indicates a direction, its norm does not matter.
+		* Note that it is not necessary to provide a normalized vec3.
+		* This vec3 only indicates a direction, its norm does not matter.
 		*
 		* @param direction : the direction of this StraightEmitter
 		*/
-		void setDirection(const Vector3D& direction);
+		void setDirection(const vec3& direction);
 
 		/////////////
 		// Getters //
@@ -78,13 +78,13 @@ namespace SPK
 		* @brief Gets the direction of this StraightEmitter
 		* @return the direction of this StraightEmitter
 		*/
-		const Vector3D& getDirection() const;
+		const vec3& getDirection() const;
 
 		/**
 		* @brief Gets the transformed direction of this StraightEmitter
 		* @return the transformed direction of this StraightEmitter
 		*/
-		const Vector3D& getTransformedDirection() const;
+		const vec3& getTransformedDirection() const;
 
 	protected :
 
@@ -92,26 +92,26 @@ namespace SPK
 
 	private :
 
-		Vector3D direction;
-		Vector3D tDirection;
+		vec3 direction;
+		vec3 tDirection;
 
 		virtual void generateVelocity(Particle& particle,float speed) const;
 	};
 
 
-	inline StraightEmitter* StraightEmitter::create(const Vector3D& direction)
+	inline StraightEmitter* StraightEmitter::create(const vec3& direction)
 	{
 		StraightEmitter* obj = new StraightEmitter(direction);
 		registerObject(obj);
 		return obj;
 	}
 
-	inline const Vector3D& StraightEmitter::getDirection() const
+	inline const vec3& StraightEmitter::getDirection() const
 	{
 		return direction;
 	}
 
-	inline const Vector3D& StraightEmitter::getTransformedDirection() const
+	inline const vec3& StraightEmitter::getTransformedDirection() const
 	{
 		return tDirection;
 	}

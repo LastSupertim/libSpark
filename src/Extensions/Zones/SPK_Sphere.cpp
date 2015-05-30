@@ -25,7 +25,7 @@
 
 namespace SPK
 {
-	Sphere::Sphere(const Vector3D& position,float radius) :
+	Sphere::Sphere(const vec3& position,float radius) :
 		Zone(position)
 	{
 		setRadius(radius);
@@ -33,21 +33,23 @@ namespace SPK
 
 	void Sphere::generatePosition(Particle& particle,bool full) const
 	{
-		do particle.position() = Vector3D(random(-radius,radius),random(-radius,radius),random(-radius,radius));
-		while (particle.position().getSqrNorm() > radius * radius);
+		do particle.position() = vec3(random(-radius,radius),random(-radius,radius),random(-radius,radius));
+//		while (particle.position().getSqrNorm() > radius * radius);
+		while (glm::length2(particle.position()) > radius * radius);
 
 		if ((!full)&&(radius > 0.0f))
-			particle.position() *= radius / particle.position().getNorm();
+//			particle.position() *= radius / particle.position().getNorm();
+			particle.position() *= radius / glm::length(particle.position());
 
 		particle.position() += getTransformedPosition();
 	}
 
-	bool Sphere::contains(const Vector3D& v) const
+	bool Sphere::contains(const vec3& v) const
 	{
 		return getSqrDist(getTransformedPosition(),v) <= radius * radius;
 	}
 
-	bool Sphere::intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const
+	bool Sphere::intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const
 	{
 		float r2 = radius * radius;
 		float dist0 = getSqrDist(getTransformedPosition(),v0);
@@ -58,8 +60,9 @@ namespace SPK
 
 		if (intersection != NULL)
 		{
-			Vector3D vDir = v1 - v0;
-			float norm = vDir.getNorm();
+			vec3 vDir = v1 - v0;
+//			float norm = vDir.getNorm();
+			float norm = glm::length(vDir);
 
 			float d = dotProduct(vDir,getTransformedPosition() - v0) / norm;
 			float a = std::sqrt(r2 - dist0 + d * d);
@@ -87,17 +90,19 @@ namespace SPK
 					*normal = getTransformedPosition() - *intersection;
 				else
 					*normal = *intersection - getTransformedPosition();
-				normal->normalize();
+//				normal->normalize();
+				*normal = glm::normalize(*normal);
 			}
 		}
 
 		return true;
 	}
 
-	void Sphere::moveAtBorder(Vector3D& v,bool inside) const
+	void Sphere::moveAtBorder(vec3& v,bool inside) const
 	{
-		Vector3D vDir = v - getTransformedPosition();
-		float norm = vDir.getNorm();
+		vec3 vDir = v - getTransformedPosition();
+//		float norm = vDir.getNorm();
+		float norm = glm::length(vDir);
 
 		if (inside)
 			vDir *= (radius + APPROXIMATION_VALUE) / norm;
@@ -107,9 +112,9 @@ namespace SPK
 		v = getTransformedPosition() + vDir;
 	}
 
-	Vector3D Sphere::computeNormal(const Vector3D& point) const
+	vec3 Sphere::computeNormal(const vec3& point) const
 	{
-		Vector3D normal(point - getTransformedPosition());
+		vec3 normal(point - getTransformedPosition());
 		normalizeOrRandomize(normal);
 		return normal;
 	}

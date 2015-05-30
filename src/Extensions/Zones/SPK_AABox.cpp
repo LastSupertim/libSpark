@@ -25,15 +25,15 @@
 
 namespace SPK
 {
-	AABox::AABox(const Vector3D& position,const Vector3D& dimension) :
+	AABox::AABox(const vec3& position,const vec3& dimension) :
 		Zone(position)
 	{
 		setDimension(dimension);
 	}
 
-	void AABox::setDimension(const Vector3D& dimension)
+	void AABox::setDimension(const vec3& dimension)
 	{
-		this->dimension.set(std::max(0.0f,dimension.x),std::max(0.0f,dimension.y),std::max(0.0f,dimension.z));
+		this->dimension = vec3(std::max(0.0f,dimension.x),std::max(0.0f,dimension.y),std::max(0.0f,dimension.z));
 	}
 
 	void AABox::generatePosition(Particle& particle,bool full) const
@@ -62,7 +62,7 @@ namespace SPK
 		}
 	}
 
-	bool AABox::contains(const Vector3D& v) const
+	bool AABox::contains(const vec3& v) const
 	{
 		if ((v.x >= getTransformedPosition().x - dimension.x * 0.5f)&&(v.x <= getTransformedPosition().x + dimension.x * 0.5f)
 			&&(v.y >= getTransformedPosition().y - dimension.y * 0.5f)&&(v.y <= getTransformedPosition().y + dimension.y * 0.5f)
@@ -72,7 +72,7 @@ namespace SPK
 		return false;
 	}
 
-	bool AABox::intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const
+	bool AABox::intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const
 	{
 		float tEnter = 0.0f;
 		float tExit = 1.0f;
@@ -101,8 +101,9 @@ namespace SPK
 			else
 				axis &= 0x0F;
 
-			Vector3D vDir = v1 - v0;
-			float norm = vDir.getNorm() * tEnter;
+			vec3 vDir = v1 - v0;
+//			float norm = vDir.getNorm() * tEnter;
+			float norm = glm::length(vDir) * tEnter;
 			tEnter = norm < APPROXIMATION_VALUE ? 0.0f : tEnter * (norm - APPROXIMATION_VALUE) / norm;
 
 			vDir *= tEnter;
@@ -113,22 +114,22 @@ namespace SPK
 				switch(axis)
 				{
 				case 0 :
-					*normal = Vector3D(-1.0f,0.0f,0.0f);
+					*normal = vec3(-1.0f,0.0f,0.0f);
 					break;
 				case 1 :
-					*normal = Vector3D(0.0f,-1.0f,0.0f);
+					*normal = vec3(0.0f,-1.0f,0.0f);
 					break;
 				case 2 :
-					*normal = Vector3D(0.0f,0.0f,-1.0f);
+					*normal = vec3(0.0f,0.0f,-1.0f);
 					break;
 				case 3 :
-					*normal = Vector3D(1.0f,0.0f,0.0f);
+					*normal = vec3(1.0f,0.0f,0.0f);
 					break;
 				case 4 :
-					*normal = Vector3D(0.0f,1.0f,0.0f);
+					*normal = vec3(0.0f,1.0f,0.0f);
 					break;
 				case 5 :
-					*normal = Vector3D(0.0f,0.0f,1.0f);
+					*normal = vec3(0.0f,0.0f,1.0f);
 					break;
 				}
 			}
@@ -137,23 +138,24 @@ namespace SPK
 		return true;
 	}
 
-	void AABox::moveAtBorder(Vector3D& v,bool inside) const
+	void AABox::moveAtBorder(vec3& v,bool inside) const
 	{
 		if (inside)
 		{
-			Vector3D rayEnd(v - getTransformedPosition());
+			vec3 rayEnd(v - getTransformedPosition());
 			float maxDim = getTransformedPosition().x + getTransformedPosition().y + getTransformedPosition().z;
-			rayEnd *= maxDim * maxDim / rayEnd.getSqrNorm();
+//			rayEnd *= maxDim * maxDim / rayEnd.getSqrNorm();
+			rayEnd *= maxDim * maxDim / glm::length2(rayEnd);
 			intersects(getTransformedPosition() + rayEnd,getTransformedPosition(),&v,NULL);
 		}
 		else
 			intersects(getTransformedPosition(),v,&v,NULL);
 	}
 
-	Vector3D AABox::computeNormal(const Vector3D& point) const
+	vec3 AABox::computeNormal(const vec3& point) const
 	{
 		// TO DO
-		Vector3D normal(point - getTransformedPosition());
+		vec3 normal(point - getTransformedPosition());
 		normalizeOrRandomize(normal);
 		return normal;
 	}

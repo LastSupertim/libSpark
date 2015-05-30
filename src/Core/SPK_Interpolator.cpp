@@ -61,7 +61,8 @@ namespace SPK
 
 	float Interpolator::computeXVelocity(const Particle& particle) const
 	{
-		return particle.velocity().getSqrNorm();
+//		return particle.velocity().getSqrNorm();
+		return glm::length2(particle.velocity());
 	}
 
 	float Interpolator::interpolate(const Particle& particle,ModelParam interpolatedParam,float ratioY,float offsetX,float scaleX)

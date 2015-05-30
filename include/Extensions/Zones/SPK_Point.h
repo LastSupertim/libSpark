@@ -47,7 +47,7 @@ namespace SPK
 		* @brief Constructor of Point
 		* @param position : the position of the Point
 		*/
-		Point(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f));
+		Point(const vec3& position = vec3(0.0f,0.0f,0.0f));
 
 		/**
 		* @brief Creates and registers a new Point
@@ -55,17 +55,17 @@ namespace SPK
 		* @return A new registered Point
 		* @since 1.04.00
 		*/
-		static Point* create(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f));
+		static Point* create(const vec3& position = vec3(0.0f,0.0f,0.0f));
 
 		// Interface
 		virtual void generatePosition(Particle& particle,bool full) const;
-		virtual bool contains(const Vector3D& v) const;
-		virtual bool intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const;
-		virtual void moveAtBorder(Vector3D& v,bool inside) const;
-		virtual Vector3D computeNormal(const Vector3D& point) const;
+		virtual bool contains(const vec3& v) const;
+		virtual bool intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const;
+		virtual void moveAtBorder(vec3& v,bool inside) const;
+		virtual vec3 computeNormal(const vec3& point) const;
 	};
 
-	inline Point* Point::create(const Vector3D& position)
+	inline Point* Point::create(const vec3& position)
 	{
 		Point* obj = new Point(position);
 		registerObject(obj);
@@ -77,17 +77,17 @@ namespace SPK
 		particle.position() = getTransformedPosition();
 	}
 
-	inline bool Point::contains(const Vector3D& v) const
+	inline bool Point::contains(const vec3& v) const
 	{
 		return false;
 	}
 
-	inline bool Point::intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const
+	inline bool Point::intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const
 	{
 		return false;
 	}
 
-	inline void Point::moveAtBorder(Vector3D& v,bool inside) const {}
+	inline void Point::moveAtBorder(vec3& v,bool inside) const {}
 }
 
 #endif

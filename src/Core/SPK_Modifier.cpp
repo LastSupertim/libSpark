@@ -23,8 +23,8 @@
 
 namespace SPK
 {
-	Vector3D Modifier::intersection;
-	Vector3D Modifier::normal;
+	vec3 Modifier::intersection;
+	vec3 Modifier::normal;
 
 	Modifier::Modifier(int availableTriggers,ModifierTrigger trigger,bool needsIntersection,bool needsNormal,Zone* zone) :
 		Registerable(),

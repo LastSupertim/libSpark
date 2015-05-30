@@ -28,8 +28,8 @@ namespace SPK
 		upOrientation(UP_CAMERA),
 		lockedAxis(LOCK_UP)
 	{
-		lookVector.set(0.0f,0.0f,1.0f);
-		upVector.set(0.0f,1.0f,0.0f);
+		lookVector = vec3(0.0f,0.0f,1.0f);
+		upVector = vec3(0.0f,1.0f,0.0f);
 	}
 
 	void Oriented3DRendererInterface::setOrientation(LookOrientation lookOrientation,UpOrientation upOrientation,LockedAxis lockedAxis)

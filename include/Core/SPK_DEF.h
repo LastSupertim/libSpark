@@ -87,7 +87,7 @@
 * </ul>
 * Those parameters are defined by a SPK::Model of Particles.<br>
 * The Emitters and Modifiers are physical entities whose body is represented by a SPK::Zone.<br>
-* A SPK::Vector3D is the primitive object used in SPARK to represents triplets of coordinates in a universe 3D.<br>
+* A SPK::vec3 is the primitive object used in SPARK to represents triplets of coordinates in a universe 3D.<br>
 * <br>
 * Finally a system/groups can be renderered using a SPK::Renderer.
 */

@@ -127,7 +127,7 @@ namespace SPK
 		* @param pos : the position of the local transform
 		* @since 1.05.00
 		*/
-		void setTransformPosition(const Vector3D& pos);
+		void setTransformPosition(const vec3& pos);
 
 		/**
 		* @brief Sets the orientation of the local transform in a right-handed system
@@ -141,7 +141,7 @@ namespace SPK
 		* @param up : the up vector of the transformable
 		* @since 1.05.00
 		*/
-		void setTransformOrientationRH(Vector3D look,Vector3D up);
+		void setTransformOrientationRH(vec3 look,vec3 up);
 
 		/**
 		* @brief Sets the orientation of the local transform in a left-handed system
@@ -155,7 +155,7 @@ namespace SPK
 		* @param up : the up vector of the transformable
 		* @since 1.05.00
 		*/
-		void setTransformOrientationLH(Vector3D look,Vector3D up);
+		void setTransformOrientationLH(vec3 look,vec3 up);
 
 		/**
 		* @brief Sets the orientation of the local transform
@@ -170,7 +170,7 @@ namespace SPK
 		* @param angle : the angle of rotation around the axis
 		* @since 1.05.00
 		*/
-		void setTransformOrientation(Vector3D axis,float angle);
+		void setTransformOrientation(vec3 axis,float angle);
 
 		/**
 		* @brief Sets the orientation of the local transform
@@ -241,70 +241,70 @@ namespace SPK
 		* @return the position of the local transform
 		* @since 1.05.00
 		*/
-		Vector3D getLocalTransformPos() const;
+		vec3 getLocalTransformPos() const;
 
 		/**
 		* @brief Gets the side vector of the local transform
 		* @return the side vector of the local transform
 		* @since 1.05.00
 		*/
-		Vector3D getLocalTransformSide() const;
+		vec3 getLocalTransformSide() const;
 
 		/**
 		* @brief Gets the up vector of the local transform
 		* @return the up vector of the local transform
 		* @since 1.05.00
 		*/
-		Vector3D getLocalTransformUp() const;
+		vec3 getLocalTransformUp() const;
 
 		/**
 		* @brief Gets the look vector of the local transform in a right-handed system
 		* @return the look vector of the local transform
 		* @since 1.05.00
 		*/
-		Vector3D getLocalTransformLookRH() const;
+		vec3 getLocalTransformLookRH() const;
 
 		/**
 		* @brief Gets the look vector of the local transform in a left-handed system
 		* @return the look vector of the local transform
 		* @since 1.05.00
 		*/
-		Vector3D getLocalTransformLookLH() const;
+		vec3 getLocalTransformLookLH() const;
 
 		/**
 		* @brief Gets the position of the world transform
 		* @return the position of the world transform
 		* @since 1.05.00
 		*/
-		Vector3D getWorldTransformPos() const;
+		vec3 getWorldTransformPos() const;
 
 		/**
 		* @brief Gets the side vector of the world transform
 		* @return the side vector of the world transform
 		* @since 1.05.00
 		*/
-		Vector3D getWorldTransformSide() const;
+		vec3 getWorldTransformSide() const;
 
 		/**
 		* @brief Gets the up vector of the world transform
 		* @return the up vector of the world transform
 		* @since 1.05.00
 		*/
-		Vector3D getWorldTransformUp() const;
+		vec3 getWorldTransformUp() const;
 
 		/**
 		* @brief Gets the look vector of the world transform  in a right-handed system
 		* @return the look vector of the world transform
 		* @since 1.05.00
 		*/
-		Vector3D getWorldTransformLookRH() const;
+		vec3 getWorldTransformLookRH() const;
 
 		/**
 		* @brief Gets the look vector of the world transform  in a left-handed system
 		* @return the look vector of the world transform
 		* @since 1.05.00
 		*/
-		Vector3D getWorldTransformLookLH() const;
+		vec3 getWorldTransformLookLH() const;
 
 		///////////////
 		// Interface //
@@ -323,7 +323,7 @@ namespace SPK
 		* @param pos : the position of the transformable
 		* @since 1.05.00
 		*/
-		void lookAtRH(const Vector3D& target,Vector3D up,const Vector3D& pos);
+		void lookAtRH(const vec3& target,vec3 up,const vec3& pos);
 
 		/**
 		* @brief lookAt method for a left-handed system
@@ -338,7 +338,7 @@ namespace SPK
 		* @param pos : the position of the transformable
 		* @since 1.05.00
 		*/
-		void lookAtLH(const Vector3D& target,Vector3D up,const Vector3D& pos);
+		void lookAtLH(const vec3& target,vec3 up,const vec3& pos);
 
 		/**
 		* @brief Updates the world transform of this Transformable
@@ -362,14 +362,14 @@ namespace SPK
 		* @param tPos : the resulting transformed position
 		* @param pos : the position in local coordinates
 		*/
-		void transformPos(Vector3D& tPos,const Vector3D& pos);
+		void transformPos(vec3& tPos,const vec3& pos);
 
 		/**
 		* @brief A helper method to transform a direction from local to world coordinates
 		* @param tDir : the resulting transformed direction
 		* @param dir : the direction in local coordinates
 		*/
-		void transformDir(Vector3D& tDir,const Vector3D& dir);
+		void transformDir(vec3& tDir,const vec3& dir);
 
 		/**
 		* @brief Tells whether this Transformable needs update or not
@@ -426,13 +426,13 @@ namespace SPK
 			const float* src1);
 
 		static void multiply(
-			Vector3D& dest,
-			const Vector3D& v,
+			vec3& dest,
+			const vec3& v,
 			const float* m);
 
 		static void rotate(
-			Vector3D& dest,
-			const Vector3D& v,
+			vec3& dest,
+			const vec3& v,
 			const float* m);
 	};
 
@@ -459,63 +459,63 @@ namespace SPK
 		return localIdentity;
 	}
 
-	inline Vector3D Transformable::getLocalTransformPos() const
+	inline vec3 Transformable::getLocalTransformPos() const
 	{
-		return Vector3D(local[12],local[13],local[14]);
+		return vec3(local[12],local[13],local[14]);
 	}
 
-	inline Vector3D Transformable::getLocalTransformSide() const
+	inline vec3 Transformable::getLocalTransformSide() const
 	{
-		return Vector3D(local[0],local[1],local[2]);
+		return vec3(local[0],local[1],local[2]);
 	}
 
-	inline Vector3D Transformable::getLocalTransformUp() const
+	inline vec3 Transformable::getLocalTransformUp() const
 	{
-		return Vector3D(local[4],local[5],local[6]);
+		return vec3(local[4],local[5],local[6]);
 	}
 
-	inline Vector3D Transformable::getLocalTransformLookRH() const
+	inline vec3 Transformable::getLocalTransformLookRH() const
 	{
-		return Vector3D(-local[8],-local[9],-local[10]);
+		return vec3(-local[8],-local[9],-local[10]);
 	}
 
-	inline Vector3D Transformable::getLocalTransformLookLH() const
+	inline vec3 Transformable::getLocalTransformLookLH() const
 	{
-		return Vector3D(local[8],local[9],local[10]);
+		return vec3(local[8],local[9],local[10]);
 	}
 
-	inline Vector3D Transformable::getWorldTransformPos() const
+	inline vec3 Transformable::getWorldTransformPos() const
 	{
-		return Vector3D(world[12],world[13],world[14]);
+		return vec3(world[12],world[13],world[14]);
 	}
 
-	inline Vector3D Transformable::getWorldTransformSide() const
+	inline vec3 Transformable::getWorldTransformSide() const
 	{
-		return Vector3D(world[0],world[1],world[2]);
+		return vec3(world[0],world[1],world[2]);
 	}
 
-	inline Vector3D Transformable::getWorldTransformUp() const
+	inline vec3 Transformable::getWorldTransformUp() const
 	{
-		return Vector3D(world[4],world[5],world[6]);
+		return vec3(world[4],world[5],world[6]);
 	}
 
-	inline Vector3D Transformable::getWorldTransformLookRH() const
+	inline vec3 Transformable::getWorldTransformLookRH() const
 	{
-		return Vector3D(-world[8],-world[9],-world[10]);
+		return vec3(-world[8],-world[9],-world[10]);
 	}
 
-	inline Vector3D Transformable::getWorldTransformLookLH() const
+	inline vec3 Transformable::getWorldTransformLookLH() const
 	{
-		return Vector3D(world[8],world[9],world[10]);
+		return vec3(world[8],world[9],world[10]);
 	}
 
-	inline void Transformable::lookAtRH(const Vector3D& target,Vector3D up,const Vector3D& pos)
+	inline void Transformable::lookAtRH(const vec3& target,vec3 up,const vec3& pos)
 	{
 		setTransformOrientationRH(target - pos,up);
 		setTransformPosition(pos);
 	}
 
-	inline void Transformable::lookAtLH(const Vector3D& target,Vector3D up,const Vector3D& pos)
+	inline void Transformable::lookAtLH(const vec3& target,vec3 up,const vec3& pos)
 	{
 		setTransformOrientationLH(target - pos,up);
 		setTransformPosition(pos);
@@ -563,8 +563,8 @@ namespace SPK
 	}
 
 	inline void Transformable::multiply(
-		Vector3D& dest,
-		const Vector3D& v,
+		vec3& dest,
+		const vec3& v,
 		const float* m)
 	{
 		// warning : no self assignment !
@@ -575,8 +575,8 @@ namespace SPK
 	}
 
 	inline void Transformable::rotate(
-		Vector3D& dest,
-		const Vector3D& v,
+		vec3& dest,
+		const vec3& v,
 		const float* m)
 	{
 		// warning : no self assignment !

@@ -48,7 +48,7 @@ namespace SPK
 		* @param position : the position of the AABox
 		* @param dimension : the dimension of the AABox
 		*/
-		AABox(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f),const Vector3D& dimension = Vector3D(0.0f,0.0f,0.0f));
+		AABox(const vec3& position = vec3(0.0f,0.0f,0.0f),const vec3& dimension = vec3(0.0f,0.0f,0.0f));
 
 		/**
 		* @brief Creates and registers a new AABox
@@ -56,7 +56,7 @@ namespace SPK
 		* @param dimension : the dimension of the AABox
 		* @since 1.04.00
 		*/
-		static AABox* create(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f),const Vector3D& dimension = Vector3D(0.0f,0.0f,0.0f));
+		static AABox* create(const vec3& position = vec3(0.0f,0.0f,0.0f),const vec3& dimension = vec3(0.0f,0.0f,0.0f));
 
 		////////////
 		// Setter //
@@ -70,7 +70,7 @@ namespace SPK
 		*
 		* @param dimension : the dimensions of this AABox
 		*/
-		void setDimension(const Vector3D& dimension);
+		void setDimension(const vec3& dimension);
 
 		////////////
 		// Getter //
@@ -80,34 +80,34 @@ namespace SPK
 		* @brief Gets the dimensions of this AABox
 		* @return the dimensions of this AABox
 		*/
-		const Vector3D& getDimension() const;
+		const vec3& getDimension() const;
 
 		///////////////
 		// Interface //
 		///////////////
 
 		virtual void generatePosition(Particle& particle,bool full) const;
-		virtual bool contains(const Vector3D& v) const;
-		virtual bool intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const;
-		virtual void moveAtBorder(Vector3D& v,bool inside) const;
-		virtual Vector3D computeNormal(const Vector3D& point) const;
+		virtual bool contains(const vec3& v) const;
+		virtual bool intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const;
+		virtual void moveAtBorder(vec3& v,bool inside) const;
+		virtual vec3 computeNormal(const vec3& point) const;
 
 	private :
 
-		Vector3D dimension;
+		vec3 dimension;
 
 		bool slabIntersects(float p0,float p1,float bMin,float bMax,float& tEnter,float& tExit,int& firstAxis,int axis) const;
 	};
 
 
-	inline AABox* AABox::create(const Vector3D& position,const Vector3D& dimension)
+	inline AABox* AABox::create(const vec3& position,const vec3& dimension)
 	{
 		AABox* obj = new AABox(position,dimension);
 		registerObject(obj);
 		return obj;
 	}
 
-	inline const Vector3D& AABox::getDimension() const
+	inline const vec3& AABox::getDimension() const
 	{
 		return dimension;
 	}

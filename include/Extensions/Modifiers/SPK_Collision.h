@@ -127,8 +127,8 @@ namespace SPK
 
 		virtual void modify(Particle& particle,float deltaTime) const;
 
-		static void getMinMax(const Vector3D& v0,const Vector3D& v1,Vector3D& min,Vector3D& max);
-		static bool checkBoundingRect(const Vector3D& min1,const Vector3D& max1,const Vector3D& min2,const Vector3D& max2);
+		static void getMinMax(const vec3& v0,const vec3& v1,vec3& min,vec3& max);
+		static bool checkBoundingRect(const vec3& min1,const vec3& max1,const vec3& min2,const vec3& max2);
 	};
 
 

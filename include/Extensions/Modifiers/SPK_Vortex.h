@@ -68,7 +68,7 @@ namespace SPK
 		* @param rotationSpeed : the speed of rotation
 		* @param attractionSpeed : the speed of attraction
 		*/
-		Vortex(const Vector3D& position = Vector3D(),const Vector3D& direction = Vector3D(0.0f,1.0f,0.0f),float rotationSpeed = 1.0f,float attractionSpeed = 0.0f);
+		Vortex(const vec3& position = vec3(),const vec3& direction = vec3(0.0f,1.0f,0.0f),float rotationSpeed = 1.0f,float attractionSpeed = 0.0f);
 		
 		/**
 		* @brief Creates and registers a new Vortex
@@ -78,7 +78,7 @@ namespace SPK
 		* @param attractionSpeed : the speed of attraction
 		* @return a new registered vortex
 		*/
-		static Vortex* create(const Vector3D& position = Vector3D(),const Vector3D& direction = Vector3D(0.0f,1.0f,0.0f),float rotationSpeed = 1.0f,float attractionSpeed = 0.0f);
+		static Vortex* create(const vec3& position = vec3(),const vec3& direction = vec3(0.0f,1.0f,0.0f),float rotationSpeed = 1.0f,float attractionSpeed = 0.0f);
 
 		/////////////
 		// Setters //
@@ -91,7 +91,7 @@ namespace SPK
 		*
 		* @param position : the position of the eye of the vortex
 		*/
-		void setPosition(const Vector3D& position);
+		void setPosition(const vec3& position);
 
 		/**
 		* @brief Sets the direction of the eye of the vortex
@@ -101,7 +101,7 @@ namespace SPK
 		*
 		* @param direction : the direction of the eye of the vortex
 		*/
-		void setDirection(const Vector3D& direction);
+		void setDirection(const vec3& direction);
 
 		/**
 		* @brief Sets the rotation speed of the vortex
@@ -158,25 +158,25 @@ namespace SPK
 		* @brief Gets the position of the eye
 		* @return the position of the eye
 		*/
-		const Vector3D& getPosition() const;
+		const vec3& getPosition() const;
 
 		/**
 		* @brief Gets the direction of the eye
 		* @return the direction of the eye (normalized)
 		*/
-		const Vector3D& getDirection() const;
+		const vec3& getDirection() const;
 
 		/**
 		* @brief Gets the transformed position of the eye
 		* @return the transformed position of the eye
 		*/
-		const Vector3D& getTransformedPosition() const;
+		const vec3& getTransformedPosition() const;
 
 		/**
 		* @brief Gets the transformed direction of the eye
 		* @return the transformed direction of the eye (normalized)
 		*/
-		const Vector3D& getTransformedDirection() const;
+		const vec3& getTransformedDirection() const;
 
 		/**
 		* @brief Gets the rotation speed
@@ -220,11 +220,11 @@ namespace SPK
 
 	private :
 
-		Vector3D position;
-		Vector3D direction;
+		vec3 position;
+		vec3 direction;
 
-		Vector3D tPosition;
-		Vector3D tDirection;
+		vec3 tPosition;
+		vec3 tDirection;
 
 		float rotationSpeed;
 		float attractionSpeed;
@@ -239,24 +239,24 @@ namespace SPK
 	};
 
 
-	inline Vortex* Vortex::create(const Vector3D& position,const Vector3D& direction,float rotationSpeed,float attractionSpeed)
+	inline Vortex* Vortex::create(const vec3& position,const vec3& direction,float rotationSpeed,float attractionSpeed)
 	{
 		Vortex* obj = new Vortex(position,direction,rotationSpeed,attractionSpeed);
 		registerObject(obj);
 		return obj;
 	}
 
-	inline void Vortex::setPosition(const Vector3D& position)
+	inline void Vortex::setPosition(const vec3& position)
 	{
 		this->position = position;
 		tPosition = this->position;
 		notifyForUpdate();
 	}
 
-	inline void Vortex::setDirection(const Vector3D& direction)
+	inline void Vortex::setDirection(const vec3& direction)
 	{
-		this->direction = direction;
-		this->direction.normalize();
+		this->direction = glm::normalize(direction);
+//		this->direction.normalize();
 		tDirection = this->direction;
 		notifyForUpdate();
 	}
@@ -284,22 +284,22 @@ namespace SPK
 		killingParticleEnabled = kill;
 	}
 
-	inline const Vector3D& Vortex::getPosition() const
+	inline const vec3& Vortex::getPosition() const
 	{
 		return position;
 	}
 
-	inline const Vector3D& Vortex::getDirection() const
+	inline const vec3& Vortex::getDirection() const
 	{
 		return direction;
 	}
 
-	inline const Vector3D& Vortex::getTransformedPosition() const
+	inline const vec3& Vortex::getTransformedPosition() const
 	{
 		return tPosition;
 	}
 
-	inline const Vector3D& Vortex::getTransformedDirection() const
+	inline const vec3& Vortex::getTransformedDirection() const
 	{
 		return tDirection;
 	}

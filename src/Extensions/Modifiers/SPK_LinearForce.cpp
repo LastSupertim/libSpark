@@ -25,7 +25,7 @@
 
 namespace SPK
 {
-	LinearForce::LinearForce(Zone* zone,ModifierTrigger trigger,const Vector3D& force,ForceFactor type,ModelParam param) :
+	LinearForce::LinearForce(Zone* zone,ModifierTrigger trigger,const vec3& force,ForceFactor type,ModelParam param) :
 		Modifier(ALWAYS | INSIDE_ZONE | OUTSIDE_ZONE,ALWAYS,false,false,zone),
 		force(force),
 		tForce(force),

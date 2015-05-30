@@ -54,7 +54,7 @@ namespace SPK
 		* @param p0 : the first bound of this Line
 		* @param p1 : the second bound of this Line
 		*/
-		Line(const Vector3D& p0 = Vector3D(0.0f,0.0f,0.0f),const Vector3D& p1 = Vector3D(0.0f,0.0f,0.0f));
+		Line(const vec3& p0 = vec3(0.0f,0.0f,0.0f),const vec3& p1 = vec3(0.0f,0.0f,0.0f));
 
 		/**
 		* @brief Creates and registers a new Line
@@ -62,20 +62,20 @@ namespace SPK
 		* @param p1 : the second bound of this Line
 		* @since 1.04.00
 		*/
-		static Line* create(const Vector3D& p0 = Vector3D(0.0f,0.0f,0.0f),const Vector3D& p1 = Vector3D(0.0f,0.0f,0.0f));
+		static Line* create(const vec3& p0 = vec3(0.0f,0.0f,0.0f),const vec3& p1 = vec3(0.0f,0.0f,0.0f));
 
 		/////////////
 		// Setters //
 		/////////////
 
-		void setPosition(const Vector3D& v);
+		void setPosition(const vec3& v);
 
 		/**
 		* @brief Sets the bounds of this Line
 		* @param p0 : the first bound of this Line
 		* @param p1 : the second bound of this Line
 		*/
-		void setBounds(const Vector3D& p0,const Vector3D& p1);
+		void setBounds(const vec3& p0,const vec3& p1);
 
 		/////////////
 		// Getters //
@@ -87,7 +87,7 @@ namespace SPK
 		* @return the first bound of index of this Line
 		* @since 1.03.00
 		*/
-		const Vector3D& getBound(size_t index) const;
+		const vec3& getBound(size_t index) const;
 
 		/**
 		* @brief Gets the transformed bound of index of this Line
@@ -95,7 +95,7 @@ namespace SPK
 		* @return the transformed bound of index of this Line
 		* @since 1.03.00
 		*/
-		const Vector3D& getTransformedBound(size_t index) const;
+		const vec3& getTransformedBound(size_t index) const;
 
 		///////////////
 		// Interface //
@@ -109,13 +109,13 @@ namespace SPK
 		*
 		* @param bound : the new bound of this Line
 		*/
-		void pushBound(const Vector3D& bound);
+		void pushBound(const vec3& bound);
 
 		virtual void generatePosition(Particle& particle,bool full) const;
-		virtual bool contains(const Vector3D& v) const;
-		virtual bool intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const;
-		virtual void moveAtBorder(Vector3D& v,bool inside) const;
-		virtual Vector3D computeNormal(const Vector3D& point) const;
+		virtual bool contains(const vec3& v) const;
+		virtual bool intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const;
+		virtual void moveAtBorder(vec3& v,bool inside) const;
+		virtual vec3 computeNormal(const vec3& point) const;
 
 	protected :
 
@@ -123,44 +123,44 @@ namespace SPK
 
 	private :
 
-		Vector3D bounds[2];
-		Vector3D tBounds[2];
+		vec3 bounds[2];
+		vec3 tBounds[2];
 
-		Vector3D tDist;
+		vec3 tDist;
 
 		void computeDist();
 		void computePosition();
 	};
 
 
-	inline Line* Line::create(const Vector3D& p0,const Vector3D& p1)
+	inline Line* Line::create(const vec3& p0,const vec3& p1)
 	{
 		Line* obj = new Line(p0,p1);
 		registerObject(obj);
 		return obj;
 	}
 		
-	inline const Vector3D& Line::getBound(size_t index) const
+	inline const vec3& Line::getBound(size_t index) const
 	{
 		return bounds[index];
 	}
 
-	inline const Vector3D& Line::getTransformedBound(size_t index) const
+	inline const vec3& Line::getTransformedBound(size_t index) const
 	{
 		return tBounds[index];
 	}
 
-	inline bool Line::contains(const Vector3D& v) const
+	inline bool Line::contains(const vec3& v) const
 	{
 		return false;
 	}
 
-	inline bool Line::intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const
+	inline bool Line::intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const
 	{
 		return false;
 	}
 
-	inline void Line::moveAtBorder(Vector3D& v,bool inside) const {}
+	inline void Line::moveAtBorder(vec3& v,bool inside) const {}
 
 	inline void Line::computeDist()
 	{

@@ -24,126 +24,7 @@
 
 namespace SPK
 {
-	Vector3D::Vector3D(float x,float y,float z) :
-		x(x),
-		y(y),
-		z(z) {}
-
-	Vector3D& Vector3D::operator+=(const Vector3D& v)
-	{
-		x += v.x;
-		y += v.y;
-		z += v.z;
-		return *this;
-	}
-
-	Vector3D& Vector3D::operator-=(const Vector3D& v)
-	{
-		x -= v.x;
-		y -= v.y;
-		z -= v.z;
-		return *this;
-	}
-
-	Vector3D& Vector3D::operator+=(float f)
-	{
-		x += f;
-		y += f;
-		z += f;
-		return *this;
-	}
-
-	Vector3D& Vector3D::operator-=(float f)
-	{
-		x -= f;
-		y -= f;
-		z -= f;
-		return *this;
-	}
-
-	Vector3D& Vector3D::operator*=(float f)
-	{
-		x *= f;
-		y *= f;
-		z *= f;
-		return *this;
-	}
-
-	Vector3D& Vector3D::operator/=(float f)
-	{
-		f = 1.0f / f;
-		x *= f;
-		y *= f;
-		z *= f;
-		return *this;
-	}
-
-	float& Vector3D::operator[](size_t index)
-	{
-		switch(index)
-		{
-		case 0 : return x;
-		case 1 : return y;
-		default : return z;
-		}
-	}
-
-	const float& Vector3D::operator[](size_t index) const
-	{
-		switch(index)
-		{
-		case 0 : return x;
-		case 1 : return y;
-		default : return z;
-		}
-	}
-
-	void Vector3D::set(float x,float y,float z)
-	{
-		this->x = x;
-		this->y = y;
-		this->z = z;
-	}
-
-	bool Vector3D::normalize()
-	{
-		float norm = getNorm();
-		if (norm != 0.0f)
-		{
-			x /= norm;
-			y /= norm;
-			z /= norm;
-			return true;
-		}
-		return false;
-	}
-
-	void Vector3D::revert()
-	{
-		x = -x;
-		y = -y;
-		z = -z;
-	}
-
-	void Vector3D::abs()
-	{
-		if (x < 0.0f) x = -x;
-		if (y < 0.0f) y = -y;
-		if (z < 0.0f) z = -z;
-	}
-
-	void Vector3D::crossProduct(const Vector3D& v)
-	{
-		Vector3D result;
-
-		result.x = y * v.z - z * v.y;
-		result.y = z * v.x - x * v.z;
-		result.z = x * v.y - y * v.x;
-
-		*this = result;
-	}
-
-	float getSqrDist(const Vector3D& v0,const Vector3D& v1)
+	float getSqrDist(const vec3& v0,const vec3& v1)
 	{
 		float dx = v0.x - v1.x;
 		float dy = v0.y - v1.y;
@@ -152,14 +33,14 @@ namespace SPK
 		return dx * dx + dy * dy + dz * dz;
 	}
 
-	float getDist(const Vector3D& v0,const Vector3D& v1)
+	float getDist(const vec3& v0,const vec3& v1)
 	{
 		return std::sqrt(getSqrDist(v0,v1));
 	}
 
-	Vector3D crossProduct(const Vector3D& v0,const Vector3D& v1)
+	vec3 crossProduct(const vec3& v0,const vec3& v1)
 	{
-		Vector3D result;
+		vec3 result;
 
 		result.x = v0.y * v1.z - v0.z * v1.y;
 		result.y = v0.z * v1.x - v0.x * v1.z;
@@ -168,7 +49,7 @@ namespace SPK
 		return result;
 	}
 
-	void crossProduct(const Vector3D& v0,const Vector3D& v1,Vector3D& result)
+	void crossProduct(const vec3& v0,const vec3& v1,vec3& result)
 	{
 		result.x = v0.y * v1.z - v0.z * v1.y;
 		result.y = v0.z * v1.x - v0.x * v1.z;

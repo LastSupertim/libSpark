@@ -50,13 +50,14 @@ namespace SPK
 			sqrRadius *= sqrRadius;
 
 			// Gets the normal of the collision plane
-			Vector3D normal = particle.position();
+			vec3 normal = particle.position();
 			normal -= particle2.position();
-			float sqrDist = normal.getSqrNorm();
+//			float sqrDist = normal.getSqrNorm();
+			float sqrDist = glm::length2(normal);
 
 			if (sqrDist < sqrRadius) // particles are intersecting each other
 			{
-				Vector3D delta = particle.velocity();
+				vec3 delta = particle.velocity();
 				delta -= particle2.velocity();
 
 				if (dotProduct(normal,delta) < 0.0f) // particles are moving towards each other
@@ -75,11 +76,12 @@ namespace SPK
 							continue;
 					}
 
-					normal.normalize();
+//					normal.normalize();
+					normal = glm::normalize(normal);
 
 					// Gets the normal components of the velocities
-					Vector3D normal1(normal);
-					Vector3D normal2(normal);
+					vec3 normal1(normal);
+					vec3 normal2(normal);
 					normal1 *= dotProduct(normal,particle.velocity());
 					normal2 *= dotProduct(normal,particle2.velocity());
 

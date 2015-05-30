@@ -46,7 +46,7 @@ namespace SPK
 		* @param position : position of the center of the Sphere
 		* @param radius : radius of the Sphere
 		*/
-		Sphere(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f),float radius = 0.0f);
+		Sphere(const vec3& position = vec3(0.0f,0.0f,0.0f),float radius = 0.0f);
 
 		/**
 		* @brief Creates and registers a new Sphere
@@ -55,7 +55,7 @@ namespace SPK
 		* @return A new registered Sphere
 		* @since 1.04.00
 		*/
-		static Sphere* create(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f),float radius = 0.0f);
+		static Sphere* create(const vec3& position = vec3(0.0f,0.0f,0.0f),float radius = 0.0f);
 
 		////////////
 		// Setter //
@@ -85,10 +85,10 @@ namespace SPK
 		///////////////
 
 		virtual void generatePosition(Particle& particle,bool full) const;
-		virtual bool contains(const Vector3D& v) const;
-		virtual bool intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const;
-		virtual void moveAtBorder(Vector3D& v,bool inside) const;
-		virtual Vector3D computeNormal(const Vector3D& point) const;
+		virtual bool contains(const vec3& v) const;
+		virtual bool intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const;
+		virtual void moveAtBorder(vec3& v,bool inside) const;
+		virtual vec3 computeNormal(const vec3& point) const;
 
 	private :
 
@@ -96,7 +96,7 @@ namespace SPK
 	};
 
 
-	inline Sphere* Sphere::create(const Vector3D& position,float radius)
+	inline Sphere* Sphere::create(const vec3& position,float radius)
 	{
 		Sphere* obj = new Sphere(position,radius);
 		registerObject(obj);

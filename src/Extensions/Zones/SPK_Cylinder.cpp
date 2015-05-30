@@ -26,7 +26,7 @@
 
 namespace SPK
 {
-	Cylinder::Cylinder(const Vector3D& position,const Vector3D& direction,float radius,float length) :
+	Cylinder::Cylinder(const vec3& position,const vec3& direction,float radius,float length) :
 		Zone(position)
 	{
 		setDirection(direction);
@@ -34,23 +34,25 @@ namespace SPK
 		setLength(length);
 	}
 
-    bool Cylinder::contains(const Vector3D& v) const
+    bool Cylinder::contains(const vec3& v) const
     {
         float dist = dotProduct(tDirection,v - getTransformedPosition());
 
-		Vector3D ext = v - (tDirection*dist + getTransformedPosition());
-		float r = ext.getNorm();
+		vec3 ext = v - (tDirection*dist + getTransformedPosition());
+//		float r = ext.getNorm();
+		float r = glm::length(ext);
 
 		return dist <= length*0.5f && dist >= -length*0.5f && r <= radius;
     }
-    Vector3D Cylinder::computeNormal(const Vector3D& point) const
+    vec3 Cylinder::computeNormal(const vec3& point) const
     {
         float dist = dotProduct(tDirection,point - getTransformedPosition());
         if(dist >= length*0.5f) return tDirection;
 		if(dist <= -length*0.5f) return -tDirection;
 
-		Vector3D ext = point - (tDirection*dist + getTransformedPosition());
-		float r = ext.getNorm(); ext = ext / r;
+		vec3 ext = point - (tDirection*dist + getTransformedPosition());
+//		float r = ext.getNorm(); ext = ext / r;
+		float r = glm::length(ext); ext = ext / r;
 
 		return ext;
     }
@@ -62,37 +64,40 @@ namespace SPK
             cAngle = random(0.0f,3.15f); // 3.15 > PI, but it has no importance here...
 
 	    // We need at least two points to compute a base
-	    Vector3D rPoint = getTransformedPosition() + Vector3D(10.0f,10.0f,10.0f);
+	    vec3 rPoint = getTransformedPosition() + vec3(10.0f,10.0f,10.0f);
 	    float dist = dotProduct(tDirection,rPoint);
 	    while(dist == 0.0f || tDirection*dist +getTransformedPosition() == rPoint)
 	    {
 	        // avoid dist == 0, which leads to a div by zero.
-	        rPoint += Vector3D(10.0f,10.0f,random(-10.0f,10.0f));
+	        rPoint += vec3(10.0f,10.0f,random(-10.0f,10.0f));
 	        dist = dotProduct(tDirection,rPoint);
 	    }
 
-	    Vector3D p1 = tDirection*dist +getTransformedPosition();
+	    vec3 p1 = tDirection*dist +getTransformedPosition();
 	    dist = getDist(p1,rPoint);
 
-	    Vector3D a = (rPoint - p1) / dist;
-		Vector3D tmp1 = tDirection, tmp2 = a; tmp2.crossProduct(tmp1*(-1));
-        Vector3D b = tmp2;
+	    vec3 a = (rPoint - p1) / dist;
+//		vec3 tmp1 = tDirection, tmp2 = a; tmp2.crossProduct(tmp1*(-1));
+		vec3 tmp1 = tDirection, tmp2 = a; glm::cross(tmp2, tmp1*(-1));
+        vec3 b = tmp2;
 
         particle.position() = getTransformedPosition() + cLength * tDirection + a * cRadius * std::cos(cAngle) + b * cRadius * std::sin(cAngle);
 	}
 
-	bool Cylinder::intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const
+	bool Cylinder::intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const
 	{
 	    if(!intersection) return false;
 
 	    // mindist between line directed by tDir and line(v0 v1).
-	    Vector3D u = v1 - v0; u.normalize();
+//	    vec3 u = v1 - v0; u.normalize();
+		vec3 u = v1 - v0; u = glm::normalize(u);
 	    if(tDirection == u || tDirection == -u) // colinear
 	    {
 	        float dist = dotProduct(tDirection,v0 - getTransformedPosition());
 
-            Vector3D ext = v0 - (tDirection*dist + getTransformedPosition());
-            float r = ext.getNorm(); ext = ext / r;
+            vec3 ext = v0 - (tDirection*dist + getTransformedPosition());
+//            float r = ext.getNorm(); ext = ext / r;
+			float r = glm::length(ext); ext = ext / r;
 
             if(r == radius) //intersection
             {
@@ -112,16 +117,19 @@ namespace SPK
 	    }
 	    else
 	    {
-	        Vector3D pp = getTransformedPosition() - v0, uv = u;
-	        uv.crossProduct(tDirection);
-			float dist = std::abs(dotProduct(pp,uv))/uv.getNorm();
+	        vec3 pp = getTransformedPosition() - v0, uv = u;
+//	        uv.crossProduct(tDirection);
+			uv = glm::cross(uv, tDirection);
+//			float dist = std::abs(dotProduct(pp,uv))/uv.getNorm();
+			float dist = std::abs(dotProduct(pp,uv))/glm::length(uv);
 
 	        float d = dotProduct(tDirection,v0 - getTransformedPosition());
-            Vector3D ext = v0 - (tDirection*d + getTransformedPosition());
-            float r = ext.getNorm();
+            vec3 ext = v0 - (tDirection*d + getTransformedPosition());
+//            float r = ext.getNorm();
+			float r = glm::length(ext);
 
 	        float ah = std::cos(std::asin(dist/r))*r;
-	        Vector3D h = v0 + u*ah;
+	        vec3 h = v0 + u*ah;
 
 	        if(contains(h)) // intersection
 	        {
@@ -135,13 +143,14 @@ namespace SPK
 	    }
 	}
 
-	void Cylinder::moveAtBorder(Vector3D& v,bool inside) const
+	void Cylinder::moveAtBorder(vec3& v,bool inside) const
 	{
 	    float approx = inside ? -APPROXIMATION_VALUE : APPROXIMATION_VALUE;
         float dist = dotProduct(tDirection,v - getTransformedPosition());
 
-		Vector3D ext = v - (tDirection*dist + getTransformedPosition());
-		float r = ext.getNorm(); ext = ext / r;
+		vec3 ext = v - (tDirection*dist + getTransformedPosition());
+//		float r = ext.getNorm(); ext = ext / r;
+		float r = glm::length(ext); ext = ext / r;
 		if(dist > length*0.5f)
 		{
 		    v -= tDirection * (dist - length*0.5f - approx);
@@ -167,6 +176,7 @@ namespace SPK
 	{
 		Zone::innerUpdateTransform();
 		transformDir(tDirection,direction);
-		tDirection.normalize();
+//		tDirection.normalize();
+		tDirection = glm::normalize(tDirection);
 	}
 }

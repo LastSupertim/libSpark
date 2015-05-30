@@ -38,7 +38,7 @@ namespace SPK
 		model(m != NULL ? m : &getDefaultModel()),
 		renderer(NULL),
 		friction(0.0f),
-		gravity(Vector3D()),
+		gravity(vec3()),
 		pool(Pool<Particle>(capacity)),
 		particleData(new Particle::ParticleData[capacity]),
 		particleCurrentParams(new float[capacity * model->getSizeOfParticleCurrentArray()]),
@@ -310,8 +310,8 @@ namespace SPK
 		if (boundingBoxEnabled)
 		{
 			const float maxFloat = std::numeric_limits<float>::max();
-			AABBMin.set(maxFloat,maxFloat,maxFloat);
-			AABBMax.set(-maxFloat,-maxFloat,-maxFloat);
+			AABBMin = vec3(maxFloat,maxFloat,maxFloat);
+			AABBMax = vec3(-maxFloat,-maxFloat,-maxFloat);
 		}
 
 		// Prepare modifiers for processing
@@ -368,8 +368,8 @@ namespace SPK
 
 		if ((!boundingBoxEnabled)||(pool.getNbActive() == 0))
 		{
-			AABBMin.set(0.0f,0.0f,0.0f);
-			AABBMax.set(0.0f,0.0f,0.0f);
+			AABBMin = vec3(0.0f,0.0f,0.0f);
+			AABBMax = vec3(0.0f,0.0f,0.0f);
 		}
 
 		return (hasActiveEmitters)||(pool.getNbActive() > 0);
@@ -464,36 +464,38 @@ namespace SPK
 			pushParticle(emitterIt,nbManualBorn);
 	}
 
-	float Group::addParticles(const Vector3D& start,const Vector3D& end,Emitter* emitter,float step,float offset)
+	float Group::addParticles(const vec3& start,const vec3& end,Emitter* emitter,float step,float offset)
 	{
 		if ((step <= 0.0f)||(offset < 0.0f))
 			return 0.0f;
 
-		Vector3D displacement = end - start;
-		float totalDist = displacement.getNorm();
+		vec3 displacement = end - start;
+//		float totalDist = displacement.getNorm();
+		float totalDist = glm::length(displacement);
 
 		while(offset < totalDist)
 		{
-			Vector3D position = start;
+			vec3 position = start;
 			position += displacement * offset / totalDist;
-			addParticles(1,position,Vector3D(),NULL,emitter);
+			addParticles(1,position,vec3(),NULL,emitter);
 			offset += step;
 		}
 
 		return offset - totalDist;
 	}
 
-	float Group::addParticles(const Vector3D& start,const Vector3D& end,const Vector3D& velocity,float step,float offset)
+	float Group::addParticles(const vec3& start,const vec3& end,const vec3& velocity,float step,float offset)
 	{
 		if ((step <= 0.0f)||(offset < 0.0f))
 			return 0.0f;
 
-		Vector3D displacement = end - start;
-		float totalDist = displacement.getNorm();
+		vec3 displacement = end - start;
+//		float totalDist = displacement.getNorm();
+		float totalDist = glm::length(displacement);
 
 		while(offset < totalDist)
 		{
-			Vector3D position = start;
+			vec3 position = start;
 			position += displacement * (offset / totalDist);
 			addParticles(1,position,velocity,NULL,NULL);
 			offset += step;
@@ -502,7 +504,7 @@ namespace SPK
 		return offset - totalDist;
 	}
 
-	void Group::addParticles(unsigned int nb,const Vector3D& position,const Vector3D& velocity,const Zone* zone,Emitter* emitter,bool full)
+	void Group::addParticles(unsigned int nb,const vec3& position,const vec3& velocity,const Zone* zone,Emitter* emitter,bool full)
 	{
 		if (nb == 0)
 			return;
@@ -514,22 +516,22 @@ namespace SPK
 
 	void Group::addParticles(unsigned int nb,Emitter* emitter)
 	{
-		addParticles(nb,Vector3D(),Vector3D(),emitter->getZone(),emitter,emitter->isFullZone());
+		addParticles(nb,vec3(),vec3(),emitter->getZone(),emitter,emitter->isFullZone());
 	}
 
 	void Group::addParticles(const Zone* zone,Emitter* emitter,float deltaTime,bool full)
 	{
-		addParticles(emitter->updateNumber(deltaTime),Vector3D(),Vector3D(),zone,emitter,full);
+		addParticles(emitter->updateNumber(deltaTime),vec3(),vec3(),zone,emitter,full);
 	}
 
-	void Group::addParticles(const Vector3D& position,Emitter* emitter,float deltaTime)
+	void Group::addParticles(const vec3& position,Emitter* emitter,float deltaTime)
 	{
-		addParticles(emitter->updateNumber(deltaTime),position,Vector3D(),NULL,emitter);
+		addParticles(emitter->updateNumber(deltaTime),position,vec3(),NULL,emitter);
 	}
 
 	void Group::addParticles(Emitter* emitter,float deltaTime)
 	{
-		addParticles(emitter->updateNumber(deltaTime),Vector3D(),Vector3D(),emitter->getZone(),emitter,emitter->isFullZone());
+		addParticles(emitter->updateNumber(deltaTime),vec3(),vec3(),emitter->getZone(),emitter,emitter->isFullZone());
 	}
 
 	void Group::sortParticles()
@@ -554,14 +556,14 @@ namespace SPK
 	{
 		if ((!boundingBoxEnabled)||(pool.getNbActive() == 0))
 		{
-			AABBMin.set(0.0f,0.0f,0.0f);
-			AABBMax.set(0.0f,0.0f,0.0f);
+			AABBMin = vec3(0.0f,0.0f,0.0f);
+			AABBMax = vec3(0.0f,0.0f,0.0f);
 			return;
 		}
 
 		const float maxFloat = std::numeric_limits<float>::max();
-		AABBMin.set(maxFloat,maxFloat,maxFloat);
-		AABBMax.set(-maxFloat,-maxFloat,-maxFloat);
+		AABBMin = vec3(maxFloat,maxFloat,maxFloat);
+		AABBMax = vec3(-maxFloat,-maxFloat,-maxFloat);
 
 		Pool<Particle>::iterator endIt = pool.end();
 		for (Pool<Particle>::iterator it = pool.begin(); it != endIt; ++it)
@@ -614,7 +616,7 @@ namespace SPK
 
 	void Group::updateAABB(const Particle& particle)
 	{
-		const Vector3D& position = particle.position();
+		const vec3& position = particle.position();
 		if (AABBMin.x > position.x)
 			AABBMin.x = position.x;
 		if (AABBMin.y > position.y)

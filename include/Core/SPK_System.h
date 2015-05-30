@@ -32,7 +32,7 @@
 namespace SPK
 {
 	class Group;
-	class Vector3D;
+//	class vec3;
 
 
 	/**
@@ -99,7 +99,7 @@ namespace SPK
 		*
 		* @param cameraPosition the camera position
 		*/
-		static void setCameraPosition(const Vector3D& cameraPosition);
+		static void setCameraPosition(const vec3& cameraPosition);
 
 		/**
 		* @brief Enables or not the clamping on the deltaTime when updating systems
@@ -183,7 +183,7 @@ namespace SPK
 		*
 		* @return the camera position
 		*/
-		static const Vector3D& getCameraPosition();
+		static const vec3& getCameraPosition();
 
 		/**
 		* @brief Gets the current step mode
@@ -255,24 +255,24 @@ namespace SPK
 		bool isAABBComputingEnabled() const;
 
 		/**
-		* @brief Gets a Vector3D holding the minimum coordinates of the AABB of this System.
+		* @brief Gets a vec3 holding the minimum coordinates of the AABB of this System.
 		*
 		* Note that this method is only useful when the AABB computation is enabled (see enableAABBComputing(bool)).
 		*
-		* @return a Vector3D holding the minimum coordinates of the AABB of this System
+		* @return a vec3 holding the minimum coordinates of the AABB of this System
 		* @since 1.01.00
 		*/
-		const Vector3D& getAABBMin() const;
+		const vec3& getAABBMin() const;
 
 		/**
-		* @brief Gets a Vector3D holding the maximum coordinates of the AABB of this System.
+		* @brief Gets a vec3 holding the maximum coordinates of the AABB of this System.
 		*
 		* Note that this method is only useful when the AABB computation is enabled (see enableAABBComputing(bool)).
 		*
-		* @return a Vector3D holding the maximum coordinates of the AABB of this System
+		* @return a vec3 holding the maximum coordinates of the AABB of this System
 		* @since 1.01.00
 		*/
-		const Vector3D& getAABBMax() const;
+		const vec3& getAABBMax() const;
 
 		///////////////
 		// Interface //
@@ -384,7 +384,7 @@ namespace SPK
 
 	private :
 
-		static Vector3D cameraPosition;
+		static vec3 cameraPosition;
 
 		static StepMode stepMode;
 		static float constantStep;
@@ -399,8 +399,8 @@ namespace SPK
 		size_t nbParticles;
 
 		bool boundingBoxEnabled;
-		Vector3D AABBMin;
-		Vector3D AABBMax;
+		vec3 AABBMin;
+		vec3 AABBMax;
 
 		bool innerUpdate(float deltaTime);
 	};
@@ -443,12 +443,12 @@ namespace SPK
 		return boundingBoxEnabled;
 	}
 
-	inline const Vector3D& System::getAABBMin() const
+	inline const vec3& System::getAABBMin() const
 	{
 		return AABBMin;
 	}
 
-	inline const Vector3D& System::getAABBMax() const
+	inline const vec3& System::getAABBMax() const
 	{
 		return AABBMax;
 	}

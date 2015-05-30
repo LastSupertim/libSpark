@@ -57,7 +57,7 @@ namespace SPK
 		* @param position : the position of the Plane
 		* @param normal : the normal of the Plane
 		*/
-		Plane(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f),const Vector3D& normal = Vector3D(0.0f,1.0f,0.0f));
+		Plane(const vec3& position = vec3(0.0f,0.0f,0.0f),const vec3& normal = vec3(0.0f,1.0f,0.0f));
 
 		/**
 		* @brief Creates and registers a new Plane
@@ -66,7 +66,7 @@ namespace SPK
 		* @return a new registered plane
 		* @since 1.04.00
 		*/
-		static Plane* create(const Vector3D& position = Vector3D(0.0f,0.0f,0.0f),const Vector3D& normal = Vector3D(0.0f,1.0f,0.0f));
+		static Plane* create(const vec3& position = vec3(0.0f,0.0f,0.0f),const vec3& normal = vec3(0.0f,1.0f,0.0f));
 
 		/////////////
 		// Setters //
@@ -79,7 +79,7 @@ namespace SPK
 		*
 		* @param normal :  the normal of this Plane
 		*/
-		void setNormal(const Vector3D& normal);
+		void setNormal(const vec3& normal);
 
 		/////////////
 		// Getters //
@@ -89,24 +89,24 @@ namespace SPK
 		* @brief Gets the normal of this Plane
 		* @return the normal of this Plane
 		*/
-		const Vector3D& getNormal() const;
+		const vec3& getNormal() const;
 
 		/**
 		* @brief Gets the transformed normal of this Plane
 		* @return the transformed normal of this Plane
 		* @since 1.05.00
 		*/
-		const Vector3D& getTransformedNormal() const;
+		const vec3& getTransformedNormal() const;
 
 		///////////////
 		// Interface //
 		///////////////
 
 		virtual void generatePosition(Particle& particle,bool full) const;
-		virtual bool contains(const Vector3D& v) const;
-		virtual bool intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const;
-		virtual void moveAtBorder(Vector3D& v,bool inside) const;
-		virtual Vector3D computeNormal(const Vector3D& point) const;
+		virtual bool contains(const vec3& v) const;
+		virtual bool intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const;
+		virtual void moveAtBorder(vec3& v,bool inside) const;
+		virtual vec3 computeNormal(const vec3& point) const;
 
 	protected :
 
@@ -114,32 +114,32 @@ namespace SPK
 
 	private :
 
-		Vector3D normal;
-		Vector3D tNormal;
+		vec3 normal;
+		vec3 tNormal;
 	};
 
 
-	inline Plane* Plane::create(const Vector3D& position,const Vector3D& normal)
+	inline Plane* Plane::create(const vec3& position,const vec3& normal)
 	{
 		Plane* obj = new Plane(position,normal);
 		registerObject(obj);
 		return obj;
 	}
 		
-	inline void Plane::setNormal(const Vector3D& normal)
+	inline void Plane::setNormal(const vec3& normal)
 	{
-		this->normal = normal;
-		this->normal.normalize();
+		this->normal = glm::normalize(normal);
+//		this->normal.normalize();
 		tNormal = this->normal;
 		notifyForUpdate();
 	}
 
-	inline const Vector3D& Plane::getNormal() const
+	inline const vec3& Plane::getNormal() const
 	{
 		return normal;
 	}
 
-	inline const Vector3D& Plane::getTransformedNormal() const
+	inline const vec3& Plane::getTransformedNormal() const
 	{
 		return tNormal;
 	}
@@ -149,12 +149,12 @@ namespace SPK
 		particle.position() = getTransformedPosition();
 	}
 
-	inline bool Plane::contains(const Vector3D& v) const
+	inline bool Plane::contains(const vec3& v) const
 	{
 		return dotProduct(normal,v - getTransformedPosition()) <= 0.0f;
 	}
 
-	inline Vector3D Plane::computeNormal(const Vector3D& point) const
+	inline vec3 Plane::computeNormal(const vec3& point) const
 	{
 		return tNormal;
 	}

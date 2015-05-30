@@ -38,12 +38,13 @@ namespace SPK
 
 	void PointMass::modify(Particle& particle,float deltaTime) const
 	{
-		Vector3D force = tPosition;
+		vec3 force = tPosition;
 		if (getZone() != NULL)
 			force += getZone()->getTransformedPosition();
 
 		force -= particle.position();
-		force *= mass * deltaTime / std::max(sqrMinDistance,force.getSqrNorm());
+//		force *= mass * deltaTime / std::max(sqrMinDistance,force.getSqrNorm());
+		force *= mass * deltaTime / std::max(sqrMinDistance,glm::length2(force));
 		particle.velocity() += force;
 	}
 }

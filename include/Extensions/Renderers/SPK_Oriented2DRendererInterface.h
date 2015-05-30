@@ -63,7 +63,7 @@ namespace SPK
 		* </ul>
 		* In other modes the orientation vector is not used
 		*/
-		Vector3D orientationVector;
+		vec3 orientationVector;
 
 		//////////////////
 		// Constructors //
@@ -110,18 +110,18 @@ namespace SPK
 		void scaleQuadVectors(const Particle& particle,float scaleX,float scaleY) const;
 		void rotateAndScaleQuadVectors(const Particle& particle,float scaleX,float scaleY) const;
 
-		const Vector3D& quadUp() const;
-		const Vector3D& quadSide() const;
+		const vec3& quadUp() const;
+		const vec3& quadSide() const;
 
 	private :
 
 		// Used to store the orientation of quads before scaling
-		mutable Vector3D up;
-		mutable Vector3D side;
+		mutable vec3 up;
+		mutable vec3 side;
 
 		// This is where are stored quad orientation info after computation
-		mutable Vector3D sideQuad;
-		mutable Vector3D upQuad;
+		mutable vec3 sideQuad;
+		mutable vec3 upQuad;
 	};
 
 
@@ -141,12 +141,12 @@ namespace SPK
 		return orientation;
 	}
 
-	inline const Vector3D& Oriented2DRendererInterface::quadUp() const
+	inline const vec3& Oriented2DRendererInterface::quadUp() const
 	{
 		return upQuad;
 	}
 
-	inline const Vector3D& Oriented2DRendererInterface::quadSide() const
+	inline const vec3& Oriented2DRendererInterface::quadSide() const
 	{
 		return sideQuad;
 	}

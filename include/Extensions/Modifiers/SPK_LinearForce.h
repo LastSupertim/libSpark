@@ -76,7 +76,7 @@ namespace SPK
 		*/
 		LinearForce(Zone* zone = NULL,
 			ModifierTrigger trigger = INSIDE_ZONE,
-			const Vector3D& force = Vector3D(),
+			const vec3& force = vec3(),
 			ForceFactor type = FACTOR_NONE,
 			ModelParam param = PARAM_SIZE);
 
@@ -92,7 +92,7 @@ namespace SPK
 		*/
 		static LinearForce* create(Zone* zone = NULL,
 			ModifierTrigger trigger = INSIDE_ZONE,
-			const Vector3D& force = Vector3D(),
+			const vec3& force = vec3(),
 			ForceFactor type = FACTOR_NONE,
 			ModelParam param = PARAM_SIZE);
 
@@ -105,7 +105,7 @@ namespace SPK
 		* @param force : the force vector
 		* @since 1.03.02
 		*/
-		void setForce(const Vector3D& force);
+		void setForce(const vec3& force);
 
 		/**
 		* @brief Sets the factor type to apply to the force
@@ -123,14 +123,14 @@ namespace SPK
 		* @return the force vector
 		* @since 1.03.02
 		*/
-		const Vector3D& getForce() const;
+		const vec3& getForce() const;
 
 		/**
 		* @brief Gets the transformed force vector
 		* @return the transformed force vector
 		* @since 1.03.02
 		*/
-		const Vector3D& getTransformedForce() const;
+		const vec3& getTransformedForce() const;
 
 		/**
 		* @brief Gets the factor multiplier of this LinearForce
@@ -150,8 +150,8 @@ namespace SPK
 
 	private :
 
-		Vector3D force;
-		Vector3D tForce;
+		vec3 force;
+		vec3 tForce;
 
 		ForceFactor factorType;
 		ModelParam factorParam;
@@ -160,14 +160,14 @@ namespace SPK
 	};
 
 
-	inline LinearForce* LinearForce::create(Zone* zone,ModifierTrigger trigger,const Vector3D& force,ForceFactor type,ModelParam param)
+	inline LinearForce* LinearForce::create(Zone* zone,ModifierTrigger trigger,const vec3& force,ForceFactor type,ModelParam param)
 	{
 		LinearForce* obj = new LinearForce(zone,trigger,force,type,param);
 		registerObject(obj);
 		return obj;
 	}
 	
-	inline void LinearForce::setForce(const Vector3D& force)
+	inline void LinearForce::setForce(const vec3& force)
 	{
 		this->force = tForce = force;
 		notifyForUpdate();
@@ -179,12 +179,12 @@ namespace SPK
 		factorParam = param;
 	}
 
-	inline const Vector3D& LinearForce::getForce() const
+	inline const vec3& LinearForce::getForce() const
 	{
 		return force;
 	}
 
-	inline const Vector3D& LinearForce::getTransformedForce() const
+	inline const vec3& LinearForce::getTransformedForce() const
 	{
 		return tForce;
 	}

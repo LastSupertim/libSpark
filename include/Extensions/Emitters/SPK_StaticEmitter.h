@@ -60,7 +60,7 @@ namespace SPK
 
 	inline void StaticEmitter::generateVelocity(Particle& particle,float speed) const
 	{
-		particle.velocity().set(0.0f,0.0f,0.0f); // no initial velocity
+		particle.velocity() = vec3(0.0f,0.0f,0.0f); // no initial velocity
 	}
 }
 

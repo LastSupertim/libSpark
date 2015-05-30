@@ -24,13 +24,13 @@
 
 namespace SPK
 {
-	Point::Point(const Vector3D& position) :
+	Point::Point(const vec3& position) :
 		Zone(position)
 	{}
 
-	Vector3D Point::computeNormal(const Vector3D& point) const
+	vec3 Point::computeNormal(const vec3& point) const
 	{
-		Vector3D normal(point - getTransformedPosition());
+		vec3 normal(point - getTransformedPosition());
 		normalizeOrRandomize(normal);
 
 		return normal;

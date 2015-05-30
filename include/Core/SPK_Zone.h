@@ -55,7 +55,7 @@ namespace SPK
 		* @brief Default constructor for Zone
 		* @param position : the position of the Zone
 		*/
-		Zone(const Vector3D& position = Vector3D());
+		Zone(const vec3& position = vec3());
 
 		////////////////
 		// Destructor //
@@ -72,7 +72,7 @@ namespace SPK
 		* @brief Sets the position of this Zone
 		* @param v : the position of this Zone
 		*/
-		virtual void setPosition(const Vector3D& v);
+		virtual void setPosition(const vec3& v);
 
 		/////////////
 		// Getters //
@@ -82,14 +82,14 @@ namespace SPK
 		* @brief Gets the position of this Zone
 		* @return the position of this Zone
 		*/
-		const Vector3D& getPosition() const;
+		const vec3& getPosition() const;
 
 		/**
 		* @brief Gets the transformed position of this Zone
 		* @return the transformed position of this Zone
 		* @since 1.03.00
 		*/
-		const Vector3D& getTransformedPosition() const;
+		const vec3& getTransformedPosition() const;
 
 		///////////////
 		// Interface //
@@ -107,28 +107,28 @@ namespace SPK
 		* @param point : the point to check
 		* @return true if the point is within the Zone, false otherwise
 		*/
-		virtual bool contains(const Vector3D& point) const = 0;
+		virtual bool contains(const vec3& point) const = 0;
 
 		/**
 		* @brief Checks whether a line intersects the Zone
 		*
-		* The intersection is computed only if the Vector3D* intersection is not NULL.<br>
-		* The normal is computed if the Vector3D* normal AND intersection are not NULL.
+		* The intersection is computed only if the vec3* intersection is not NULL.<br>
+		* The normal is computed if the vec3* normal AND intersection are not NULL.
 		*
 		* @param v0 : start of the line
 		* @param v1 : end of the line
-		* @param intersection : the Vector3D where the intersection will be stored, NULL not to compute the intersection
-		* @param normal : the Vector3D where the normal will be stored, NULL not to compute the normal
+		* @param intersection : the vec3 where the intersection will be stored, NULL not to compute the intersection
+		* @param normal : the vec3 where the normal will be stored, NULL not to compute the normal
 		* @return true if the line intersects with the Zone, false otherwise
 		*/
-		virtual bool intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const = 0;
+		virtual bool intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const = 0;
 
 		/**
 		* @brief Moves a point at the border of the Zone
 		* @param point : the point that will be moved to the border of the Zone
 		* @param inside : true to move the point inside the Zone of APPROXIMATION_VALUE, false to move it outside of APPROXIMATION_VALUE
 		*/
-		virtual void moveAtBorder(Vector3D& point,bool inside) const = 0;
+		virtual void moveAtBorder(vec3& point,bool inside) const = 0;
 
 		/**
 		* @brief Computes the normal for the point
@@ -136,7 +136,7 @@ namespace SPK
 		* @return the normal vector
 		* @since 1.02.00
 		*/
-		virtual Vector3D computeNormal(const Vector3D& point) const = 0;
+		virtual vec3 computeNormal(const vec3& point) const = 0;
 
 	protected :
 
@@ -144,47 +144,48 @@ namespace SPK
 		static const float APPROXIMATION_VALUE;
 
 		/**
-		* @brief A helper static method to normalize a Vector3D
+		* @brief A helper static method to normalize a vec3
 		*
-		* If the Vector3D is NULL, a random normal Vector3D is set.<br>
+		* If the vec3 is NULL, a random normal vec3 is set.<br>
 		* The randomness is guaranteed to be uniformely distributed.
 		*
-		* @param v : the Vector3D to normalize or randomize if not normalizable
+		* @param v : the vec3 to normalize or randomize if not normalizable
 		* @since 1.03.00
 		*/
-		static void normalizeOrRandomize(Vector3D& v);
+		static void normalizeOrRandomize(vec3& v);
 
 		virtual void innerUpdateTransform();
 
 	private :
 
-		Vector3D position;
-		Vector3D tPosition; // transformed position
+		vec3 position;
+		vec3 tPosition; // transformed position
 	};
 
 
-	inline void Zone::setPosition(const Vector3D& v)
+	inline void Zone::setPosition(const vec3& v)
 	{
 		position = tPosition = v;
 		notifyForUpdate();
 	}
 
-	inline const Vector3D& Zone::getPosition() const
+	inline const vec3& Zone::getPosition() const
 	{
 		return position;
 	}
 
-	inline const Vector3D& Zone::getTransformedPosition() const
+	inline const vec3& Zone::getTransformedPosition() const
 	{
 		return tPosition;
 	}
 
-	inline void Zone::normalizeOrRandomize(Vector3D& v)
+	inline void Zone::normalizeOrRandomize(vec3& v)
 	{
-		while(!v.normalize())
+//		while(!v.normalize())
+		while(glm::length2(v) == 0.0)
 		{
-			do v = Vector3D(random(-1.0f,1.0f),random(-1.0f,1.0f),random(-1.0f,1.0f));
-			while (v.getSqrNorm() > 1.0f);
+			do v = vec3(random(-1.0f,1.0f),random(-1.0f,1.0f),random(-1.0f,1.0f));
+			while (glm::length2(v) > 1.0f);
 		}
 	}
 

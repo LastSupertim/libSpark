@@ -35,14 +35,14 @@ namespace SPK
 
 	void Obstacle::modify(Particle& particle,float deltaTime) const
 	{
-		Vector3D& velocity = particle.velocity();
+		vec3& velocity = particle.velocity();
 		velocity = particle.position();
 		velocity -= particle.oldPosition();
 
 		if (deltaTime != 0.0f)
 			velocity *= 1.0f / deltaTime;
 		else 
-			velocity.set(0.0f,0.0f,0.0f);
+			velocity = vec3();
 
 		float dist = dotProduct(velocity,normal);
 

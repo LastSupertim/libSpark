@@ -149,14 +149,14 @@ namespace SPK
 		* @brief Sets the gravity of this Group
 		*
 		* The gravity is a vector which defines an attractive force that will be applied to each Particle in the Group during the update.<br>
-		* By default the gravity is the null vector (i.e. a Vector3D equal to (0,0,0)) which means no gravity is applied.<br>
+		* By default the gravity is the null vector (i.e. a vec3 equal to (0,0,0)) which means no gravity is applied.<br>
 		* <br>
 		* The gravity is applied on each Particle as followed :<br>
 		* <i>velocity += gravity * deltaTime</i><br>
 		*
-		* @param gravity : the Vector3D that will be used as the gravity for this Group
+		* @param gravity : the vec3 that will be used as the gravity for this Group
 		*/
-		void setGravity(const Vector3D& gravity);
+		void setGravity(const vec3& gravity);
 
 		/**
 		* @brief Assigns a callback for the custom update
@@ -219,7 +219,7 @@ namespace SPK
 		* The distance computation happens at each call to update(unsigned int).<br>
 		* The distance of a Particle from the camera can be gotten with a call to Particle::getDistanceFromCamera() or Particle::getSqrDistanceFromCamera()<br>
 		* <br>
-		* Note that the distance is defined by the difference vector between the Particle and the the camera set with System::setCameraPosition(Vector3D&).<br>
+		* Note that the distance is defined by the difference vector between the Particle and the the camera set with System::setCameraPosition(vec3&).<br>
 		* <br>
 		* If the distance computation is disabled, then the sorting of particles is disabled as well.
 		*
@@ -231,8 +231,8 @@ namespace SPK
 		/**
 		* @brief Enables or disables the computation of the axis aligned bouding box of the Group
 		*
-		* if the computing of the AABB is enabled, after each call to update(unsigned int), 2 Vector3D are updated with the coordinates information of the AABB.
-		* Those Vector3D can be gotten with getAABBMin() and getAABBMax() which give respectively the minimum and maximum coordinates of the bounding box in each axis.<br>
+		* if the computing of the AABB is enabled, after each call to update(unsigned int), 2 vec3 are updated with the coordinates information of the AABB.
+		* Those vec3 can be gotten with getAABBMin() and getAABBMax() which give respectively the minimum and maximum coordinates of the bounding box in each axis.<br>
 		* <br>
 		* Knowing the AABB of a Group of particles can be useful in some case like frustum culling for instance.<br>
 		* <br>
@@ -356,13 +356,13 @@ namespace SPK
 		float getFriction() const;
 
 		/**
-		* @brief Gets the gravity Vector3D of this Group
+		* @brief Gets the gravity vec3 of this Group
 		*
-		* For a description of the gravity see setGravity(Vector3D&).
+		* For a description of the gravity see setGravity(vec3&).
 		*
-		* @return the gravity Vector3D of this Group
+		* @return the gravity vec3 of this Group
 		*/
-		const Vector3D& getGravity() const;
+		const vec3& getGravity() const;
 
 		/**
 		* @brief Tells whether the sorting of particles from back to front is enabled
@@ -390,22 +390,22 @@ namespace SPK
 		bool isAABBComputingEnabled() const;
 
 		/**
-		* @brief Gets a Vector3D holding the minimum coordinates of the AABB of the Group.
+		* @brief Gets a vec3 holding the minimum coordinates of the AABB of the Group.
 		*
 		* Note that this method is only useful when the AABB computation is enabled (see enableAABBComputing(bool)).
 		*
-		* @return a Vector3D holding the minimum coordinates of the AABB of the Group
+		* @return a vec3 holding the minimum coordinates of the AABB of the Group
 		*/
-		const Vector3D& getAABBMin() const;
+		const vec3& getAABBMin() const;
 
 		/**
-		* @brief Gets a Vector3D holding the maximum coordinates of the AABB of the Group.
+		* @brief Gets a vec3 holding the maximum coordinates of the AABB of the Group.
 		*
 		* Note that this method is only useful when the AABB computation is enabled (see enableAABBComputing(bool)).
 		*
-		* @return a Vector3D holding the maximum coordinates of the AABB of the Group
+		* @return a vec3 holding the maximum coordinates of the AABB of the Group
 		*/
-		const Vector3D& getAABBMax() const;
+		const vec3& getAABBMax() const;
 
 		/**
 		* @brief Gets the start address of the given param
@@ -488,12 +488,12 @@ namespace SPK
 		* @param position : the position where the Particles will be added
 		* @param velocity : the velocity of the Particles
 		*/
-		void addParticles(unsigned int nb,const Vector3D& position,const Vector3D& velocity);
+		void addParticles(unsigned int nb,const vec3& position,const vec3& velocity);
 
 		/**
 		* @brief Adds some Particles to this Group
 		*
-		* See addParticles(unsigned int,const Vector3D&,const Vector3D&) for a complete description.
+		* See addParticles(unsigned int,const vec3&,const vec3&) for a complete description.
 		*
 		* @param nb : the number of Particles to add
 		* @param zone : the Zone that will be used to generate the position
@@ -505,30 +505,30 @@ namespace SPK
 		/**
 		* @brief Adds some Particles to this Group
 		*
-		* See addParticles(unsigned int,const Vector3D&,const Vector3D&) for a complete description.
+		* See addParticles(unsigned int,const vec3&,const vec3&) for a complete description.
 		*
 		* @param nb : the number of Particles to add
 		* @param zone : the Zone that will be used to generate the position
 		* @param velocity : the velocity of the Particles
 		* @param full : true to generate a position within the whole Zonz, false only at its borders
 		*/
-		void addParticles(unsigned int nb,const Zone* zone,const Vector3D& velocity,bool full = true);
+		void addParticles(unsigned int nb,const Zone* zone,const vec3& velocity,bool full = true);
 
 		/**
 		* @brief Adds some Particles to this Group
 		*
-		* See addParticles(unsigned int,const Vector3D&,const Vector3D&) for a complete description.
+		* See addParticles(unsigned int,const vec3&,const vec3&) for a complete description.
 		*
 		* @param nb : the number of Particles to add
 		* @param position : the position where the Particles will be added
 		* @param emitter : the Emitter that will be used to generate the velocity
 		*/
-		void addParticles(unsigned int nb,const Vector3D& position,Emitter* emitter);
+		void addParticles(unsigned int nb,const vec3& position,Emitter* emitter);
 
 		/**
 		* @brief Adds some Particles to this Group
 		*
-		* See addParticles(unsigned int,const Vector3D&,const Vector3D&) for a complete description.
+		* See addParticles(unsigned int,const vec3&,const vec3&) for a complete description.
 		*
 		* @param nb : the number of Particles to add
 		* @param emitter : the Emitter that will be used to generate the velocity and whose Zone will be used to generate the position
@@ -538,7 +538,7 @@ namespace SPK
 		/**
 		* @brief Adds some Particles to this Group
 		*
-		* See addParticles(unsigned int,const Vector3D&,const Vector3D&) for a complete description.
+		* See addParticles(unsigned int,const vec3&,const vec3&) for a complete description.
 		*
 		* @param zone : the Zone that will be used to generate the position
 		* @param emitter : the Emitter that will be used to generate the velocity
@@ -550,18 +550,18 @@ namespace SPK
 		/**
 		* @brief Adds some Particles to this Group
 		*
-		* See addParticles(unsigned int,const Vector3D&,const Vector3D&) for a complete description.
+		* See addParticles(unsigned int,const vec3&,const vec3&) for a complete description.
 		*
 		* @param position : the position where the Particles will be added
 		* @param emitter : the Emitter that will be used to generate the velocity
 		* @param deltaTime : the step time that will be used to determine how many particles to generate
 		*/
-		void addParticles(const Vector3D& position,Emitter* emitter,float deltaTime);
+		void addParticles(const vec3& position,Emitter* emitter,float deltaTime);
 
 		/**
 		* @brief Adds some Particles to this Group
 		*
-		* See addParticles(unsigned int,const Vector3D&,const Vector3D&) for a complete description.
+		* See addParticles(unsigned int,const vec3&,const vec3&) for a complete description.
 		*
 		* @param emitter : the Emitter that will be used to generate the velocity and whose Zone will be used to generate the position
 		* @param deltaTime : the step time that will be used to determine how many particles to generate
@@ -577,7 +577,7 @@ namespace SPK
 		* <br>
 		* This method is useful to generate equidistant particles on lines no matter the framerate.<br>
 		* <br>
-		* See addParticles(unsigned int,const Vector3D&,const Vector3D&) for some complementary information.
+		* See addParticles(unsigned int,const vec3&,const vec3&) for some complementary information.
 		*
 		* @param start : the position of the start of the line
 		* @param end : the position of the end of the line
@@ -586,12 +586,12 @@ namespace SPK
 		* @param offset : the starting distance of the beginning of the line
 		* @return the new offset at the end of the line
 		*/
-		float addParticles(const Vector3D& start,const Vector3D& end,Emitter* emitter,float step,float offset = 0.0f);
+		float addParticles(const vec3& start,const vec3& end,Emitter* emitter,float step,float offset = 0.0f);
 
 		/**
 		* @brief Adds some Particles to this Group
 		*
-		* See addParticles(const Vector3D&,const Vector3D&,const Emitter*,float,float) for a complete description.
+		* See addParticles(const vec3&,const vec3&,const Emitter*,float,float) for a complete description.
 		*
 		* @param start : the position of the start of the line
 		* @param end : the position of the end of the line
@@ -600,7 +600,7 @@ namespace SPK
 		* @param offset : the starting distance of the beginning of the line
 		* @return the new offset at the end of the line
 		*/
-		float addParticles(const Vector3D& start,const Vector3D& end,const Vector3D& velocity,float step,float offset = 0.0f);
+		float addParticles(const vec3& start,const vec3& end,const vec3& velocity,float step,float offset = 0.0f);
 
 		/**
 		* @brief Removes a Particle from this Group
@@ -807,8 +807,8 @@ namespace SPK
 		struct CreationData
 		{
 			unsigned int nb;
-			Vector3D position;
-			Vector3D velocity;
+			vec3 position;
+			vec3 velocity;
 			const Zone* zone;
 			Emitter* emitter;
 			bool full;
@@ -835,7 +835,7 @@ namespace SPK
 
 		// physics parameters
 		float friction;
-		Vector3D gravity;
+		vec3 gravity;
 
 		// particles data
 		Pool<Particle> pool;
@@ -858,8 +858,8 @@ namespace SPK
 
 		// bounding box
 		bool boundingBoxEnabled;
-		Vector3D AABBMin;
-		Vector3D AABBMax;
+		vec3 AABBMin;
+		vec3 AABBMax;
 
 		// additional buffers
 		mutable std::map<std::string,Buffer*> additionalBuffers;
@@ -868,7 +868,7 @@ namespace SPK
 		void pushParticle(std::vector<EmitterData>::iterator& emitterIt,unsigned int& nbManualBorn);
 		void launchParticle(Particle& p,std::vector<EmitterData>::iterator& emitterIt,unsigned int& nbManualBorn);
 
-		void addParticles(unsigned int nb,const Vector3D& position,const Vector3D& velocity,const Zone* zone,Emitter* emitter,bool full = false);
+		void addParticles(unsigned int nb,const vec3& position,const vec3& velocity,const Zone* zone,Emitter* emitter,bool full = false);
 
 		void popNextManualAdding(unsigned int& nbManualBorn);
 
@@ -890,7 +890,7 @@ namespace SPK
 		this->friction = friction;
 	}
 
-	inline void Group::setGravity(const Vector3D& gravity)
+	inline void Group::setGravity(const vec3& gravity)
 	{
 		this->gravity = gravity;
 	}
@@ -992,7 +992,7 @@ namespace SPK
 		return friction;
 	}
 
-	inline const Vector3D& Group::getGravity() const
+	inline const vec3& Group::getGravity() const
 	{
 		return gravity;
 	}
@@ -1012,34 +1012,34 @@ namespace SPK
 		return boundingBoxEnabled;
 	}
 
-	inline const Vector3D& Group::getAABBMin() const
+	inline const vec3& Group::getAABBMin() const
 	{
 		return AABBMin;
 	}
 
-	inline const Vector3D& Group::getAABBMax() const
+	inline const vec3& Group::getAABBMax() const
 	{
 		return AABBMax;
 	}
 
-	inline void Group::addParticles(unsigned int nb,const Vector3D& position,const Vector3D& velocity)
+	inline void Group::addParticles(unsigned int nb,const vec3& position,const vec3& velocity)
 	{
 		addParticles(nb,position,velocity,NULL,NULL);
 	}
 
 	inline void Group::addParticles(unsigned int nb,const Zone* zone,Emitter* emitter,bool full)
 	{
-		addParticles(nb,Vector3D(),Vector3D(),zone,emitter,full);
+		addParticles(nb,vec3(),vec3(),zone,emitter,full);
 	}
 
-	inline void Group::addParticles(unsigned int nb,const Zone* zone,const Vector3D& velocity,bool full)
+	inline void Group::addParticles(unsigned int nb,const Zone* zone,const vec3& velocity,bool full)
 	{
-		addParticles(nb,Vector3D(),velocity,zone,NULL,full);
+		addParticles(nb,vec3(),velocity,zone,NULL,full);
 	}
 
-	inline void Group::addParticles(unsigned int nb,const Vector3D& position,Emitter* emitter)
+	inline void Group::addParticles(unsigned int nb,const vec3& position,Emitter* emitter)
 	{
-		addParticles(nb,position,Vector3D(),NULL,emitter);
+		addParticles(nb,position,vec3(),NULL,emitter);
 	}
 
 	inline void Group::removeParticle(size_t index)

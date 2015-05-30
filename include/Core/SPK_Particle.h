@@ -124,21 +124,21 @@ namespace SPK
 		* @return the position of this Particle
 		* @since 1.02.00
 		*/
-		Vector3D& position();
+		vec3& position();
 
 		/**
 		* @brief Gets the velocity of the Particle
 		* @return the velocity of this Particle
 		* @since 1.02.00
 		*/
-		Vector3D& velocity();
+		vec3& velocity();
 
 		/**
 		* @brief Gets the old position of the Particle
 		* @return the old position of this Particle
 		* @since 1.02.00
 		*/
-		Vector3D& oldPosition();
+		vec3& oldPosition();
 
 		/**
 		* @brief Gets the position of the Particle
@@ -148,7 +148,7 @@ namespace SPK
 		* @return the position of this Particle
 		* @since 1.02.00
 		*/
-		const Vector3D& position() const;
+		const vec3& position() const;
 
 		/**
 		* @brief Gets the velocity of the Particle
@@ -158,7 +158,7 @@ namespace SPK
 		* @return the velocity of this Particle
 		* @since 1.02.00
 		*/
-		const Vector3D& velocity() const;
+		const vec3& velocity() const;
 
 		/**
 		* @brief Gets the old position of the Particle
@@ -168,7 +168,7 @@ namespace SPK
 		* @return the old position of this Particle
 		* @since 1.02.00
 		*/
-		const Vector3D& oldPosition() const;
+		const vec3& oldPosition() const;
 
 		/**
 		* @brief Gets the current value for the given parameter
@@ -302,9 +302,9 @@ namespace SPK
 
 		struct ParticleData
 		{
-			Vector3D oldPosition;
-			Vector3D position;
-			Vector3D velocity;
+			vec3 oldPosition;
+			vec3 position;
+			vec3 velocity;
 			float age;
 			float life;
 			float sqrDist;
@@ -341,32 +341,32 @@ namespace SPK
 		data->life = life;
 	}
 
-	inline Vector3D& Particle::position()
+	inline vec3& Particle::position()
 	{
 		return data->position;
 	}
 
-	inline Vector3D& Particle::velocity()
+	inline vec3& Particle::velocity()
 	{
 		return data->velocity;
 	}
 
-	inline Vector3D& Particle::oldPosition()
+	inline vec3& Particle::oldPosition()
 	{
 		return data->oldPosition;
 	}
 
-	inline const Vector3D& Particle::position() const
+	inline const vec3& Particle::position() const
 	{
 		return data->position;
 	}
 
-	inline const Vector3D& Particle::velocity() const
+	inline const vec3& Particle::velocity() const
 	{
 		return data->velocity;
 	}
 
-	inline const Vector3D& Particle::oldPosition() const
+	inline const vec3& Particle::oldPosition() const
 	{
 		return data->oldPosition;
 	}

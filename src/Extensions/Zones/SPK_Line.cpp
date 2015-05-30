@@ -25,22 +25,22 @@
 
 namespace SPK
 {
-	Line::Line(const Vector3D& p0,const Vector3D& p1) :
-		Zone(Vector3D())
+	Line::Line(const vec3& p0,const vec3& p1) :
+		Zone(vec3())
 	{
 		setBounds(p0,p1);
 	}
 
-	void Line::setPosition(const Vector3D& v)
+	void Line::setPosition(const vec3& v)
 	{
-		Vector3D displacement = v - getPosition();
+		vec3 displacement = v - getPosition();
 		bounds[0] = tBounds[0] += displacement;
 		bounds[1] = tBounds[1] += displacement;
 		computeDist();
 		Zone::setPosition(v);
 	}
 
-	void Line::setBounds(const Vector3D& p0,const Vector3D& p1)
+	void Line::setBounds(const vec3& p0,const vec3& p1)
 	{
 		bounds[0] = tBounds[0] = p0;
 		bounds[1] = tBounds[1] = p1;
@@ -48,7 +48,7 @@ namespace SPK
 		computePosition();
 	}
 
-	void Line::pushBound(const Vector3D& bound)
+	void Line::pushBound(const vec3& bound)
 	{
 		bounds[0] = tBounds[0] = bounds[1];
 		bounds[1] = tBounds[1] = bound;
@@ -62,10 +62,11 @@ namespace SPK
 		particle.position() = tBounds[0] + tDist * ratio;
 	}
 
-	Vector3D Line::computeNormal(const Vector3D& point) const
+	vec3 Line::computeNormal(const vec3& point) const
 	{
 		float d = -dotProduct(tDist,point);
-		float sqrNorm = tDist.getSqrNorm();
+//		float sqrNorm = tDist.getSqrNorm();
+		float sqrNorm = glm::length2(tDist);
 		float t = 0.0f;
 		if (sqrNorm > 0.0f)
 		{
@@ -75,7 +76,7 @@ namespace SPK
 			else if (t > 1.0f) t = 1.0f;
 		}
 
-		Vector3D normal = point;
+		vec3 normal = point;
 		normal -= tBounds[0] + t * tDist;
 
 		normalizeOrRandomize(normal);

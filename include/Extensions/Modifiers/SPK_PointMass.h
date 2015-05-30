@@ -74,7 +74,7 @@ namespace SPK
 		* @param pos : the delta position
 		* @since 1.03.02
 		*/
-		void setPosition(const Vector3D& pos);
+		void setPosition(const vec3& pos);
 
 		/**
 		* @brief Sets the mass of this PointMass
@@ -107,14 +107,14 @@ namespace SPK
 		* @return the delta position
 		* @since 1.03.02
 		*/
-		const Vector3D& getPosition() const;
+		const vec3& getPosition() const;
 
 		/**
 		* @brief Gets the transformed delta position
 		* @return the transformed delta position
 		* @since 1.03.02
 		*/
-		const Vector3D& getTransformedPosition() const;
+		const vec3& getTransformedPosition() const;
 
 		/**
 		* @brief Gets the mass of this PointMass
@@ -134,8 +134,8 @@ namespace SPK
 
 	private :
 
-		Vector3D position;
-		Vector3D tPosition;
+		vec3 position;
+		vec3 tPosition;
 
 		float mass;
 		float minDistance;
@@ -152,7 +152,7 @@ namespace SPK
 		return obj;
 	}
 		
-	inline void PointMass::setPosition(const Vector3D& pos)
+	inline void PointMass::setPosition(const vec3& pos)
 	{
 		position = tPosition = pos;
 		notifyForUpdate();
@@ -169,12 +169,12 @@ namespace SPK
 		sqrMinDistance = minDistance * minDistance;
 	}
 
-	inline const Vector3D& PointMass::getPosition() const
+	inline const vec3& PointMass::getPosition() const
 	{
 		return position;
 	}
 
-	inline const Vector3D& PointMass::getTransformedPosition() const
+	inline const vec3& PointMass::getTransformedPosition() const
 	{
 		return tPosition;
 	}

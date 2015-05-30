@@ -24,7 +24,7 @@
 
 namespace SPK
 {
-	Ring::Ring(const Vector3D& position,const Vector3D& normal,float minRadius,float maxRadius) :
+	Ring::Ring(const vec3& position,const vec3& normal,float minRadius,float maxRadius) :
 		Zone(position)
 	{
 		setNormal(normal);
@@ -44,10 +44,11 @@ namespace SPK
 
 	void Ring::generatePosition(Particle& particle,bool full) const
 	{
-		Vector3D tmp;
-		do tmp = Vector3D(random(-1.0f,1.0f),random(-1.0f,1.0f),random(-1.0f,1.0f));
-		while (tmp.getSqrNorm() > 1.0f);
-		
+		vec3 tmp;
+		do tmp = vec3(random(-1.0f,1.0f),random(-1.0f,1.0f),random(-1.0f,1.0f));
+//		while (tmp.getSqrNorm() > 1.0f);
+		while (glm::length2(tmp) > 1.0f);
+
 		crossProduct(tNormal,tmp,particle.position());
 		normalizeOrRandomize(particle.position());
 
@@ -55,7 +56,7 @@ namespace SPK
 		particle.position() += getTransformedPosition();
 	}
 
-	bool Ring::intersects(const Vector3D& v0,const Vector3D& v1,Vector3D* intersection,Vector3D* normal) const
+	bool Ring::intersects(const vec3& v0,const vec3& v1,vec3* intersection,vec3* normal) const
 	{
 		float dist0 = dotProduct(tNormal,v0 - getTransformedPosition());
 		float dist1 = dotProduct(tNormal,v1 - getTransformedPosition());
@@ -70,14 +71,15 @@ namespace SPK
 
 		float ti = dist0 / (dist0 + dist1);
 
-		Vector3D vDir(v1 - v0);
-		float norm = vDir.getNorm();
+		vec3 vDir(v1 - v0);
+//		float norm = vDir.getNorm();
+		float norm = glm::length(vDir);
 
 		norm *= ti;
 		ti = norm < APPROXIMATION_VALUE ? 0.0f : ti * (norm - APPROXIMATION_VALUE) / norm;
 
 		vDir *= ti;
-		Vector3D inter(v0 + vDir);
+		vec3 inter(v0 + vDir);
 
 		float distFromCenter = getSqrDist(inter,getTransformedPosition());
 		if (distFromCenter > sqrMaxRadius || distFromCenter < sqrMinRadius) // intersection is not in the ring
@@ -93,7 +95,7 @@ namespace SPK
 		return true;
 	}
 	
-	void Ring::moveAtBorder(Vector3D& v,bool inside) const
+	void Ring::moveAtBorder(vec3& v,bool inside) const
 	{
 		float dist = dotProduct(tNormal,v - getTransformedPosition());	
 		v += tNormal * -dist;
@@ -103,14 +105,14 @@ namespace SPK
 		if (distFromCenter > sqrMaxRadius)
 		{
 			distFromCenter = std::sqrt(distFromCenter);
-			Vector3D vDir(v - getTransformedPosition());
+			vec3 vDir(v - getTransformedPosition());
 			vDir *= maxRadius / distFromCenter;
 			v = getTransformedPosition() + vDir;
 		}
 		else if (distFromCenter < sqrMinRadius)
 		{
 			distFromCenter = std::sqrt(distFromCenter);
-			Vector3D vDir(v - getTransformedPosition());
+			vec3 vDir(v - getTransformedPosition());
 			vDir *= minRadius / distFromCenter;
 			v = getTransformedPosition() + vDir;
 		}
@@ -120,6 +122,7 @@ namespace SPK
 	{
 		Zone::innerUpdateTransform();
 		transformDir(tNormal,normal);
-		tNormal.normalize();
+//		tNormal.normalize();
+		tNormal = glm::normalize(tNormal);
 	}
 }
